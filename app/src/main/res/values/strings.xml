@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Medical Record</string>
+    <string name="main_patient">Paciente</string>
+    <string name="main_add_patient">Añadir Paciente</string>
+
+    <string name="item_patient_last_calculation">Fecha de último cálculo</string>
+    <string name="item_patient_patient">Paciente</string>
+
+    <string name="doctor_name_label">Nombre del Médico</string>
+    <string name="doctor_name_field">Nombre</string>
+    <string name="doctor_pick_logo">Elegir Logo</string>
+    <string name="doctor_delete_data">Eliminar Registros</string>
+    <string name="doctor_edit_values">Editar Valores</string>
+
+    <string name="add_patient_name">Nombre</string>
+    <string name="add_patient_weight">Peso Inicial</string>
+    <string name="add_patient_next">Siguiente</string>
+    <string name="add_patient_cancel">Cancelar</string>
+    <string name="add_patient_kg">Kg</string>
+
+    <string name="title_activity_other_info">Otra Información</string>
+    <string name="other_info_gestation">Gestación</string>
+    <string name="other_info_bed">Cama</string>
+    <string name="other_info_dx">DX</string>
+    <string name="other_info_save">Guardar</string>
+    <string name="other_info_exp">Expediente</string>
+
+    <string name="aditional_instr_some_comments">Algunos comentarios o instrucciones adicionales</string>
+    <string name="aditional_instr_add_extra_instr">Añadir instrucciones adicionales</string>
+
+    <string name="edit_values_save">Guardar</string>
+    <string name="edit_values_cancel">Cancelar</string>
+
+    <string name="calculate_values_create_report">Crear Reporte</string>
+    <string name="calculate_values_calculate">Calcular</string>
+    <string name="calculate_values_actual_weight">Peso actual:</string>
+    <string name="calculate_values_solution">Solución:</string>
+    <string name="calculate_values_collapse">Colapsar</string>
+    <string name="calculate_values_expand">Expandir</string>
+    <string name="calculate_values_aditional_data">Datos adicionales:</string>
+    <string name="calculate_values_ref_by_doctor">Referencia por Médico:</string>
+</resources>

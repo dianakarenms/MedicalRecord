@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/otherInfoGestationEdit"
+        android:layout_width="116dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_rounded_square_border_gray"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/otherInfoBedEdit"
+        app:layout_constraintTop_toBottomOf="@+id/otherInfoGestationLabel" />
+
+    <TextView
+        android:id="@+id/otherInfoGestationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/other_info_gestation"
+        app:layout_constraintStart_toStartOf="@+id/otherInfoGestationEdit"
+        app:layout_constraintTop_toBottomOf="@+id/otherInfoExpEdit" />
+
+    <TextView
+        android:id="@+id/otherInfoExpLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/other_info_exp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/otherInfoBedEdit"
+        android:layout_width="199dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_rounded_square_border_gray"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/otherInfoBedLabel" />
+
+    <TextView
+        android:id="@+id/otherInfoBedLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/other_info_bed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/otherInfoExpEdit" />
+
+    <EditText
+        android:id="@+id/otherInfoExpEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_rounded_square_border_gray"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/otherInfoExpLabel" />
+
+    <TextView
+        android:id="@+id/otherInfoDxLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/other_info_dx"
+        app:layout_constraintBottom_toTopOf="@+id/otherInfoDxEdit"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/otherInfoDxEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="188dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_rounded_square_border_gray"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/otherInfoExpLabel" />
+
+    <Button
+        android:id="@+id/otherInfoCancelBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/shape_rounded_square_negative"
+        android:text="@string/add_patient_cancel"
+        android:textAllCaps="false"
+        android:textColor="@color/lightBtnTxt"
+        app:layout_constraintEnd_toStartOf="@+id/otherInfoSaveBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/otherInfoDxEdit" />
+
+    <Button
+        android:id="@+id/otherInfoSaveBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_rounded_square_positive"
+        android:text="@string/other_info_save"
+        android:textAllCaps="false"
+        android:textColor="@color/lightBtnTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/otherInfoCancelBtn"
+        app:layout_constraintTop_toBottomOf="@+id/otherInfoDxEdit" />
+
+</android.support.constraint.ConstraintLayout>

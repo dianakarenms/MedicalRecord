@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f1f1f1</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#fdf74a64</color>
+    <color name="textColorDark">#000</color>
+    <color name="lightBtnTxt">#fff</color>
+    <color name="lightDetails">#d6d6d6</color>
+    <color name="negativeBtn">#d91a47</color>
+    <color name="positiveBtn">#5f8ae6</color>
+    <color name="neutralBtn">#3fb405</color>
+    <color name="grayBtn">#464545</color>
+</resources>
