@@ -39,4 +39,5 @@
     <string name="calculate_values_expand">Expandir</string>
     <string name="calculate_values_aditional_data">Datos adicionales:</string>
     <string name="calculate_values_ref_by_doctor">Referencia por Médico:</string>
+    <string name="title_activity_main">Nutrición Parenteral</string>
 </resources>
