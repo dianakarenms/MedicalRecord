@@ -1,4 +1,4 @@
-package com.dianakarenms.medicalrecord
+package com.medicalrecord.calcprenatal
 
 import org.junit.Test
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Medical Record</string>
+    <string name="app_name">Calculadora Prenatal</string>
     <string name="main_patient">Paciente</string>
     <string name="main_add_patient">Añadir Paciente</string>
 
@@ -40,4 +40,6 @@
     <string name="calculate_values_aditional_data">Datos adicionales:</string>
     <string name="calculate_values_ref_by_doctor">Referencia por Médico:</string>
     <string name="title_activity_main">Nutrición Parenteral</string>
+    <string name="doctor_back_btn">Nutrición Parenteral</string>
+    <string name="doctor_save_btn">Guardar</string>
 </resources>
