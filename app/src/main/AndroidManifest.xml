@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name="com.medicalrecord.calcprenatal.activities.MainActivity"
+            android:name="com.medicalrecord.calcprenatal.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,24 +21,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.medicalrecord.calcprenatal.activities.DoctorDataActivity"
+            android:name="com.medicalrecord.calcprenatal.DoctorDataActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.medicalrecord.calcprenatal.activities.AddPatientActivity"
+            android:name="com.medicalrecord.calcprenatal.AddPatientActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.medicalrecord.calcprenatal.activities.OtherInfoActivity"
+            android:name="com.medicalrecord.calcprenatal.OtherInfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.medicalrecord.calcprenatal.activities.EditValuesActivity"
+            android:name="com.medicalrecord.calcprenatal.EditValuesActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_other_info"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.medicalrecord.calcprenatal.activities.CalculateValuesActivity"
+            android:name="com.medicalrecord.calcprenatal.CalculateValuesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.medicalrecord.calcprenatal.activities.AditionalInstrActivity"
+            android:name="com.medicalrecord.calcprenatal.AditionalInstrActivity"
             android:screenOrientation="portrait" />
     </application>
 
