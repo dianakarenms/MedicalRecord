@@ -4,6 +4,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/otherInfoToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary">
+
+            <ImageButton
+                android:id="@+id/toolbarMainDoctorSettingsBtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_centerVertical="true"
+                android:padding="7dp"
+                android:src="@drawable/img_doctor_settings"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:tint="@color/positiveBtn"
+                android:background="@null"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/title_activity_main"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
     <EditText
         android:id="@+id/otherInfoGestationEdit"
         android:layout_width="116dp"
@@ -36,7 +71,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/other_info_exp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/otherInfoToolbar" />
 
     <EditText
         android:id="@+id/otherInfoBedEdit"

@@ -14,11 +14,6 @@ import kotlinx.android.synthetic.main.activity_doctor_data.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.toast
 
-
-
-
-
-
 /**
  * Created by diana.munoz on 10/1/18.
  */
