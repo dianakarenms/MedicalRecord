@@ -44,4 +44,6 @@
     <string name="doctor_save_btn">Guardar</string>
     <string name="title_activity_add_patient">Añadir Paciente</string>
     <string name="title_activity_doctor_data">Datos del Médico</string>
+    <string name="title_activity_calculate_values">Nutrición Parenteral</string>
+    <string name="aditional_instr_next_btn">Siguiente</string>
 </resources>

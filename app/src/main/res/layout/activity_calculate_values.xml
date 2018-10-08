@@ -6,6 +6,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/calculateValuesToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/title_activity_calculate_values"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textStyle="bold"/>
+
+            <ImageButton
+                android:id="@+id/toolbarCalculateValuesEditBtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="7dp"
+                android:src="@drawable/img_edit"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:tint="@color/positiveBtn"
+                android:background="@null"/>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
     <Button
         android:id="@+id/calculateValuesCreateBtn"
         android:layout_width="wrap_content"
@@ -17,7 +53,7 @@
         android:textAllCaps="false"
         android:textColor="@color/lightBtnTxt"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/calculateValuesToolbar" />
 
     <Button
         android:id="@+id/calculateValuesCalculateBtn"
@@ -30,7 +66,7 @@
         android:textAllCaps="false"
         android:textColor="@color/lightBtnTxt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/calculateValuesToolbar" />
 
     <TextView
         android:id="@+id/calculateValuesWeightLabel"
