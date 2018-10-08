@@ -16,7 +16,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary">
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:id="@+id/doctorDataBackBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,7 +42,15 @@
                     android:text="@string/doctor_back_btn"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textColor="@color/positiveBtn" />
-            </LinearLayout>
+            </LinearLayout>-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/title_activity_doctor_data"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textStyle="bold"/>
 
             <Button
                 android:id="@+id/doctorDataSaveBtn"

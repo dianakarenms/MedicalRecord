@@ -19,7 +19,6 @@ class AddPatientActivity : AppCompatActivity() {
             val name = addPatientNameEdit.text.toString()
             val weight = addPatientWeightEdit.text.toString()
             startActivity<OtherInfoActivity>("name" to name, "weight" to weight)
-            finish()
         }
 
         addPatientCancelBtn.onClick { finish() }

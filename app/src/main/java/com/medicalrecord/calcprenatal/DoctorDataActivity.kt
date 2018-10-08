@@ -47,7 +47,7 @@ class DoctorDataActivity: AppCompatActivity() {
             }
         }
 
-        doctorDataBackBtn.onClick { finish() }
+        //doctorDataBackBtn.onClick { finish() }
 
         doctorDataSaveBtn.onClick {
             editor!!.putString(DOCTOR_NAME, doctorDataNameEdit.text.toString())
@@ -67,8 +67,10 @@ class DoctorDataActivity: AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when(requestCode) {
-            REQUEST_READ_EXTERNAL_STORAGE ->  chooseImageFromGallery()
+        if(grantResults[1] == 0) {
+            when (requestCode) {
+                REQUEST_READ_EXTERNAL_STORAGE -> chooseImageFromGallery()
+            }
         }
     }
 

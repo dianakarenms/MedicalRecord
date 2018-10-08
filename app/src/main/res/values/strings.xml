@@ -42,4 +42,6 @@
     <string name="title_activity_main">Nutrición Parenteral</string>
     <string name="doctor_back_btn">Nutrición Parenteral</string>
     <string name="doctor_save_btn">Guardar</string>
+    <string name="title_activity_add_patient">Añadir Paciente</string>
+    <string name="title_activity_doctor_data">Datos del Médico</string>
 </resources>

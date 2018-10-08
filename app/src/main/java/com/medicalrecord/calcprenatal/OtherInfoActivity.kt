@@ -9,6 +9,9 @@ import com.medicalrecord.data.MedicalRecordDataBase
 import com.medicalrecord.data.PatientData
 import com.medicalrecord.utils.DbWorkerThread
 import kotlinx.android.synthetic.main.activity_other_info.*
+import org.jetbrains.anko.clearTask
+import org.jetbrains.anko.clearTop
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,12 +39,14 @@ class OtherInfoActivity : AppCompatActivity() {
             patientData.bed = otherInfoBedEdit.text.toString()
             patientData.gestation = otherInfoGestationEdit.text.toString().toLong()
             patientData.dx = otherInfoDxEdit.text.toString()
+            patientData.date = Calendar.getInstance().time.formatted
+            patientData.weight = intent.getStringExtra("weight").toDouble()
 
             insertPatientDataInDb(patientData)
-            finish()
+            backToHome()
         }
 
-        otherInfoCancelBtn.onClick { finish() }
+        otherInfoCancelBtn.onClick { backToHome() }
     }
 
     override fun onDestroy() {
@@ -50,13 +55,18 @@ class OtherInfoActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    private fun backToHome() {
+        startActivity(intentFor<MainActivity>().clearTop().clearTask())
+        finish()
+    }
+
     private fun insertPatientDataInDb(patientData: PatientData) {
         val task = Runnable {
             mDb?.patientDataDao()?.insert(patientData)
-            val patientId = mDb?.patientDataDao()?.getLastInsertedId()
+            /*val patientId = mDb?.patientDataDao()?.getLastInsertedId()
             mUiHandler.post {
                 updatePatientCalculations(patientId)
-            }
+            }*/
         }
         mDbWorkerThread.postTask(task)
     }

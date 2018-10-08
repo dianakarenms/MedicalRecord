@@ -16,24 +16,11 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary">
 
-            <ImageButton
-                android:id="@+id/toolbarMainDoctorSettingsBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:layout_centerVertical="true"
-                android:padding="7dp"
-                android:src="@drawable/img_doctor_settings"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                android:tint="@color/positiveBtn"
-                android:background="@null"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/title_activity_main"
+                android:text="@string/title_activity_add_patient"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textStyle="bold"/>
 

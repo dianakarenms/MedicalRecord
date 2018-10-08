@@ -20,6 +20,7 @@ class PatientsAdapter(var items: List<PatientData>, val listener: (PatientData) 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: PatientData, listener: (PatientData) -> Unit) = with(itemView) {
             itemPatientNameTxt.text = item.name
+            itemPatientDateTxt.text = item.date
             setOnClickListener { listener(item) }
         }
     }

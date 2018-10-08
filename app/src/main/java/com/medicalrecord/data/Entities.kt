@@ -4,6 +4,7 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.ForeignKey.CASCADE
 import android.arch.persistence.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "patientsData")
 data class PatientData(@PrimaryKey(autoGenerate = true) var id: Long?,
@@ -11,11 +12,13 @@ data class PatientData(@PrimaryKey(autoGenerate = true) var id: Long?,
                        var record: String,
                        var bed: String,
                        var gestation: Long,
-                       var dx: String
+                       var dx: String,
+                       var weight: Double,
+                       var date: String
                        //@Ignore @ColumnInfo(name = "cloud") var cloud: String
 
-){
-    constructor():this(null,"","","",0, "")
+):Serializable {
+    constructor():this(null,"","","",0, "", 0.0, "")
 }
 
 @Entity(tableName = "calculationsData",
