@@ -2,28 +2,19 @@ package com.medicalrecord.calcprenatal.activities
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentResolver
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.BitmapFactory
+import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import com.medicalrecord.calcprenatal.R
 import kotlinx.android.synthetic.main.activity_doctor_data.*
-import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.toast
 import java.io.FileNotFoundException
-import android.Manifest.permission
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.support.v4.app.ActivityCompat
-import android.content.pm.PackageManager
-
-
 
 
 /**
@@ -38,7 +29,7 @@ class DoctorDataActivity: AppCompatActivity() {
 
     private var prefs: SharedPreferences? = null
     private var editor: SharedPreferences.Editor? = null
-    private var imgUri: Uri? = null
+    private var imgPath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +47,7 @@ class DoctorDataActivity: AppCompatActivity() {
 
         doctorDataPickLogoBtn.onClick {
             if (ActivityCompat.checkSelfPermission(this@DoctorDataActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this@DoctorDataActivity, arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), PICK_IMAGE)
+                ActivityCompat.requestPermissions(this@DoctorDataActivity, arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.MANAGE_DOCUMENTS), PICK_IMAGE)
             } else {
                 val intent = Intent()
                 intent.type = "image/*"
@@ -69,19 +60,19 @@ class DoctorDataActivity: AppCompatActivity() {
 
         doctorDataSaveBtn.onClick {
             editor!!.putString(DOCTOR_NAME, doctorDataNameEdit.text.toString())
-            imgUri?.let{ editor!!.putString(DOCTOR_LOGO, imgUri.toString()) }
+            imgPath?.let{ editor!!.putString(DOCTOR_LOGO, imgPath.toString()) }
             editor!!.apply()
             toast("Guardado exitoso")
             finish()
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, dataIntent: Intent?) {
         if(resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE) {
-            imgUri = data?.data!!
-            imgUri.let {
+            dataIntent!!.data
+            imgPath.let {
                 try {
-                    bitmapFromUri(imgUri!!)
+                    //bitmapFromUri(imgPath!!)
                 } catch (e: FileNotFoundException) {
                     e.printStackTrace()
                 }
@@ -89,9 +80,4 @@ class DoctorDataActivity: AppCompatActivity() {
         }
     }
 
-    private fun bitmapFromUri(uri:Uri) {
-        val imageStream = contentResolver.openInputStream(uri)
-        val selectedImage = BitmapFactory.decodeStream(imageStream);
-        doctorDataImg.imageBitmap = selectedImage
-    }
 }
