@@ -5,11 +5,21 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 
-@Database(entities = [PatientData::class, CalculationData::class], version = 1)
+@Database(entities =
+[
+    PatientData::class,
+    CalculationData::class,
+    SolutionsData::class,
+    AditionalData::class,
+    DoctorReferenceData::class
+], version = 1)
 abstract class MedicalRecordDataBase : RoomDatabase() {
 
     abstract fun patientDataDao(): PatientsDataDao
     abstract fun calculationDataDao(): CalculationDataDao
+    abstract fun solutionsDataDao(): SolutionsDataDao
+    abstract fun aditionalDataDao(): AditionalDataDao
+    abstract fun doctorReferenceDataDao(): DoctorReferenceDataDao
 
     companion object {
         private var INSTANCE: MedicalRecordDataBase? = null

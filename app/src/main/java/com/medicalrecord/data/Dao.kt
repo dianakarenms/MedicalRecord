@@ -67,3 +67,48 @@ interface CalculationDataDao {
     @Query("SELECT * FROM calculationsData WHERE patientId=:patientId")
     fun getCalculationsPerPatient(patientId: Int): List<CalculationData>
 }
+
+@Dao
+interface SolutionsDataDao {
+    @Query("SELECT * from solutionsData")
+    fun getAll(): List<SolutionsData>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(solutionData: SolutionsData)
+
+    @Query("DELETE from solutionsData")
+    fun deleteAll()
+
+    @Query("SELECT * FROM solutionsData WHERE id=:id")
+    fun getSolutionById(id: Int): SolutionsData
+}
+
+@Dao
+interface AditionalDataDao {
+    @Query("SELECT * from aditionalData")
+    fun getAll(): List<AditionalData>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(aditionalData: AditionalData)
+
+    @Query("DELETE from aditionalData")
+    fun deleteAll()
+
+    @Query("SELECT * FROM aditionalData WHERE id=:id")
+    fun getAditionalDataById(id: Int): AditionalData
+}
+
+@Dao
+interface DoctorReferenceDataDao {
+    @Query("SELECT * from doctorReferenceData")
+    fun getAll(): List<DoctorReferenceData>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(doctorReferenceData: DoctorReferenceData)
+
+    @Query("DELETE from doctorReferenceData")
+    fun deleteAll()
+
+    @Query("SELECT * FROM doctorReferenceData WHERE id=:id")
+    fun getDoctorReferenceDataById(id: Int): DoctorReferenceData
+}
