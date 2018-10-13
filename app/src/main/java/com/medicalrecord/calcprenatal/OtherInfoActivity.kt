@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import com.medicalrecord.calcprenatal.MainActivity.Companion.mDb
-import com.medicalrecord.data.CalculationData
 import com.medicalrecord.data.MedicalRecordDataBase
 import com.medicalrecord.data.PatientData
 import com.medicalrecord.utils.DbWorkerThread
@@ -38,10 +37,11 @@ class OtherInfoActivity : AppCompatActivity() {
             patientData.name = intent.getStringExtra("name")
             patientData.record = otherInfoExpEdit.text.toString()
             patientData.bed = otherInfoBedEdit.text.toString()
-            patientData.gestation = otherInfoGestationEdit.text.toString().toLong()
+            patientData.gestation = otherInfoGestationEdit.text.toString().toInt()
             patientData.dx = otherInfoDxEdit.text.toString()
-            patientData.date = Calendar.getInstance().time.formatted
+            patientData.date = "vacío"
             patientData.weight = intent.getStringExtra("weight").toDouble()
+            //patientData.date = Calendar.getInstance().time.formatted
 
             insertPatientDataInDb(patientData)
             backToHome()
@@ -72,7 +72,7 @@ class OtherInfoActivity : AppCompatActivity() {
         mDbWorkerThread.postTask(task)
     }
 
-    private fun updatePatientCalculations(patientId: Long?) {
+    /*private fun updatePatientCalculations(patientId: Long?) {
         val calculationData = CalculationData()
         calculationData.patientId = patientId!!
         calculationData.date = Calendar.getInstance().time.formatted
@@ -82,12 +82,11 @@ class OtherInfoActivity : AppCompatActivity() {
             mDb?.calculationDataDao()?.insert(calculationData)
         }
         mDbWorkerThread.postTask(task)
-    }
+    }*/
 }
 
 private val Date.formatted: String
     get() {
-        // Display a date in day, month, year format
         val formatter = SimpleDateFormat("MMM dd, yyyy")
         return formatter.format(this)
     }
