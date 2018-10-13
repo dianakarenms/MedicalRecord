@@ -8,14 +8,14 @@ import java.io.Serializable
 
 // PATIENTS
 @Entity(tableName = "patientsData")
-data class PatientData(@PrimaryKey(autoGenerate = true) var id: Int?,
-                       var name: String,
-                       var record: String,
-                       var bed: String,
-                       var gestation: Int,
-                       var dx: String,
-                       var weight: Double,
-                       var date: String
+data class Patient(@PrimaryKey(autoGenerate = true) var id: Int?,
+                   var name: String,
+                   var record: String,
+                   var bed: String,
+                   var gestation: Int,
+                   var dx: String,
+                   var weight: Double,
+                   var date: String
                         //@Ignore var calculations: List<CalculationData>
 
 ):Serializable {
@@ -25,15 +25,22 @@ data class PatientData(@PrimaryKey(autoGenerate = true) var id: Int?,
 // CALCULATIONS
 @Entity(tableName = "calculationsData",
         foreignKeys = [
-            ForeignKey(entity = PatientData::class, parentColumns = ["id"], childColumns = ["patientId"], onDelete = CASCADE)
+            ForeignKey(entity = Patient::class, parentColumns = ["id"], childColumns = ["patientId"], onDelete = CASCADE),
+            ForeignKey(entity = SolutionsData::class, parentColumns = ["id"], childColumns = ["solutionId"], onDelete = CASCADE),
+            ForeignKey(entity = AditionalData::class, parentColumns = ["id"], childColumns = ["additionalId"], onDelete = CASCADE),
+            ForeignKey(entity = DoctorReferenceData::class, parentColumns = ["id"], childColumns = ["doctorId"], onDelete = CASCADE)
         ])
 data class CalculationData(@PrimaryKey(autoGenerate = true) var id: Int?,
-                       var patientId: Int,
-                       var date: String,
-                       var weight: Double
+                           var patientId: Int,
+                           var date: String,
+                           var weight: Double,
+                           var solutionId: Int,
+                           var additionalId: Int,
+                           var doctorId: Int
+
 
 ){
-    constructor():this(null,0,"",0.0)
+    constructor():this(null,0,"",0.0, 0, 0, 0)
 }
 
 // SOLUTIONS

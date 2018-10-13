@@ -7,7 +7,7 @@ import android.content.Context
 
 @Database(entities =
 [
-    PatientData::class,
+    Patient::class,
     CalculationData::class,
     SolutionsData::class,
     AditionalData::class,
@@ -15,7 +15,7 @@ import android.content.Context
 ], version = 1)
 abstract class MedicalRecordDataBase : RoomDatabase() {
 
-    abstract fun patientDataDao(): PatientsDataDao
+    abstract fun patientDao(): PatientsDao
     abstract fun calculationDataDao(): CalculationDataDao
     abstract fun solutionsDataDao(): SolutionsDataDao
     abstract fun aditionalDataDao(): AditionalDataDao
