@@ -88,139 +88,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calculateValuesCalculateBtn" />
 
-    <!-- Solution -->
-    <RelativeLayout
-        android:id="@+id/calculateValuesWrapper1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@color/lightDetails"
-        android:paddingStart="16dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calculateValuesWeightLabel">
 
-        <TextView
-            android:id="@+id/calculateValuesSection1Label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="@string/calculate_values_solution" />
-
-        <Button
-            android:id="@+id/calculateValuesCollapse1Btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/shape_rounded_square_gray"
-            android:text="@string/calculate_values_collapse"
-            android:textColor="@color/lightBtnTxt" />
-    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/calculateValuesRecycler1"
-        android:layout_width="match_parent"
-        android:layout_height="61dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calculateValuesWrapper1"
-        tools:listitem="@layout/item_ref_value" />
-
-    <!-- Aditional Data -->
-    <RelativeLayout
-        android:id="@+id/calculateValuesWrapper2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/lightDetails"
-        android:paddingStart="16dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calculateValuesRecycler1"
-        tools:layout_editor_absoluteY="264dp">
-
-        <TextView
-            android:id="@+id/calculateValuesSection2Label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="@string/calculate_values_aditional_data" />
-
-        <Button
-            android:id="@+id/calculateValuesCollapse2Btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/shape_rounded_square_gray"
-            android:text="@string/calculate_values_collapse"
-            android:textColor="@color/lightBtnTxt" />
-    </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/calculateValuesRecycler2"
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calculateValuesWrapper2"
-        tools:listitem="@layout/item_ref_value" />
-
-    <!-- Reference by Doctor -->
-    <RelativeLayout
-        android:id="@+id/calculateValuesWrapper3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/lightDetails"
-        android:paddingStart="16dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calculateValuesRecycler2"
-        tools:layout_editor_absoluteY="351dp">
-
-        <TextView
-            android:id="@+id/calculateValuesSection3Label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="@string/calculate_values_ref_by_doctor" />
-
-        <Button
-            android:id="@+id/calculateValuesCollapse3Btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/shape_rounded_square_gray"
-            android:text="@string/calculate_values_collapse"
-            android:textColor="@color/lightBtnTxt" />
-    </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/calculateValuesRecycler3"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calculateValuesWrapper3"
-        tools:listitem="@layout/item_ref_value" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/calculateValuesCalculationsRecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -229,5 +100,124 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:listitem="@layout/item_calculation" />
+
+    <LinearLayout
+        android:id="@+id/calculateValuesWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/calculateValuesCalculationsRecycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calculateValuesWeightLabel">
+
+        <!-- Solution -->
+        <RelativeLayout
+            android:id="@+id/calculateValuesWrapper1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/lightDetails"
+            android:paddingStart="16dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="4dp">
+
+            <TextView
+                android:id="@+id/calculateValuesSection1Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/calculate_values_solution" />
+
+            <Button
+                android:id="@+id/calculateValuesCollapse1Btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/shape_rounded_square_gray"
+                android:text="@string/calculate_values_collapse"
+                android:textColor="@color/lightBtnTxt" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/calculateValuesRecycler1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_ref_value" />
+
+        <!-- Aditional Data -->
+        <RelativeLayout
+            android:id="@+id/calculateValuesWrapper2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/lightDetails"
+            android:paddingStart="16dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="4dp"
+            tools:layout_editor_absoluteY="264dp">
+
+            <TextView
+                android:id="@+id/calculateValuesSection2Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/calculate_values_aditional_data" />
+
+            <Button
+                android:id="@+id/calculateValuesCollapse2Btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/shape_rounded_square_gray"
+                android:text="@string/calculate_values_collapse"
+                android:textColor="@color/lightBtnTxt" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/calculateValuesRecycler2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_ref_value" />
+
+        <!-- Reference by Doctor -->
+        <RelativeLayout
+            android:id="@+id/calculateValuesWrapper3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/lightDetails"
+            android:paddingStart="16dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="4dp"
+            tools:layout_editor_absoluteY="351dp">
+
+            <TextView
+                android:id="@+id/calculateValuesSection3Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/calculate_values_ref_by_doctor" />
+
+            <Button
+                android:id="@+id/calculateValuesCollapse3Btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/shape_rounded_square_gray"
+                android:text="@string/calculate_values_collapse"
+                android:textColor="@color/lightBtnTxt" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/calculateValuesRecycler3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_ref_value" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
