@@ -3,6 +3,7 @@ package com.medicalrecord.data
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.ForeignKey.CASCADE
+import android.arch.persistence.room.ForeignKey.NO_ACTION
 import android.arch.persistence.room.PrimaryKey
 import java.io.Serializable
 
@@ -26,17 +27,17 @@ data class Patient(@PrimaryKey(autoGenerate = true) var id: Int?,
 @Entity(tableName = "calculationsData",
         foreignKeys = [
             ForeignKey(entity = Patient::class, parentColumns = ["id"], childColumns = ["patientId"], onDelete = CASCADE),
-            ForeignKey(entity = SolutionsData::class, parentColumns = ["id"], childColumns = ["solutionId"], onDelete = CASCADE),
-            ForeignKey(entity = AditionalData::class, parentColumns = ["id"], childColumns = ["additionalId"], onDelete = CASCADE),
-            ForeignKey(entity = DoctorReferenceData::class, parentColumns = ["id"], childColumns = ["doctorId"], onDelete = CASCADE)
+            ForeignKey(entity = Solution::class, parentColumns = ["id"], childColumns = ["solutionId"], onDelete = NO_ACTION),
+            ForeignKey(entity = AditionalData::class, parentColumns = ["id"], childColumns = ["additionalId"], onDelete = NO_ACTION),
+            ForeignKey(entity = DoctorReferenceData::class, parentColumns = ["id"], childColumns = ["doctorId"], onDelete = NO_ACTION)
         ])
-data class CalculationData(@PrimaryKey(autoGenerate = true) var id: Int?,
-                           var patientId: Int,
-                           var date: String,
-                           var weight: Double,
-                           var solutionId: Int,
-                           var additionalId: Int,
-                           var doctorId: Int
+data class Calculation(@PrimaryKey(autoGenerate = true) var id: Int?,
+                       var patientId: Int,
+                       var date: String,
+                       var weight: Double,
+                       var solutionId: Int,
+                       var additionalId: Int,
+                       var doctorId: Int
 
 
 ){
@@ -45,26 +46,26 @@ data class CalculationData(@PrimaryKey(autoGenerate = true) var id: Int?,
 
 // SOLUTIONS
 @Entity(tableName = "solutionsData")
-data class SolutionsData(@PrimaryKey(autoGenerate = true) var id: Int?,
-                         var líquidos_iv_tot: Double,
-                         var sol_fisiológica: Double,
-                         var trophamine_10: Double,
-                         var trophamine_8: Double,
-                         var intralipid_20: Double,
-                         var sg_50: Double,
-                         var sg_10: Double,
-                         var kcl_amp_10: Double,
-                         var kcl_amp_5: Double,
-                         var naclhip: Double,
-                         var fosfato_k: Double,
-                         var glucca: Double,
-                         var magnesio: Double,
-                         var mvi: Double,
-                         var oligoelementos: Double,
-                         var l_cisteína: Double,
-                         var carnitina: Double,
-                         var heparina: Double,
-                         var abd: Double
+data class Solution(@PrimaryKey(autoGenerate = true) var id: Int?,
+                    var líquidos_iv_tot: Double,
+                    var sol_fisiológica: Double,
+                    var trophamine_10: Double,
+                    var trophamine_8: Double,
+                    var intralipid_20: Double,
+                    var sg_50: Double,
+                    var sg_10: Double,
+                    var kcl_amp_10: Double,
+                    var kcl_amp_5: Double,
+                    var naclhip: Double,
+                    var fosfato_k: Double,
+                    var glucca: Double,
+                    var magnesio: Double,
+                    var mvi: Double,
+                    var oligoelementos: Double,
+                    var l_cisteína: Double,
+                    var carnitina: Double,
+                    var heparina: Double,
+                    var abd: Double
 ){
     constructor():this(null, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
             0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,

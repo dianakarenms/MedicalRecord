@@ -3,4 +3,5 @@
     <dimen name="text_xs">10sp</dimen>
     <dimen name="text_sm">12sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_lg">45sp</dimen>
 </resources>

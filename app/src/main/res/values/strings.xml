@@ -46,4 +46,5 @@
     <string name="title_activity_doctor_data">Datos del Médico</string>
     <string name="title_activity_calculate_values">Nutrición Parenteral</string>
     <string name="aditional_instr_next_btn">Siguiente</string>
+    <string name="calculate_values_empty_calculations">No hay cálculos previos</string>
 </resources>

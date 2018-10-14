@@ -55,33 +55,33 @@ interface PatientsDao {
 }
 
 @Dao
-interface CalculationDataDao {
+interface CalculationsDao {
     @Query("SELECT * from calculationsData")
-    fun getAll(): List<CalculationData>
+    fun getAll(): LiveData<List<Calculation>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(calculationData: CalculationData)
+    fun insert(calculation: Calculation)
 
     @Query("DELETE from calculationsData")
     fun deleteAll()
 
     @Query("SELECT * FROM calculationsData WHERE patientId=:patientId")
-    fun getCalculationsByPatientId(patientId: Int): List<CalculationData>
+    fun getCalculationsByPatientId(patientId: Int): LiveData<List<Calculation>>
 }
 
 @Dao
-interface SolutionsDataDao {
+interface SolutionsDao {
     @Query("SELECT * from solutionsData")
-    fun getAll(): List<SolutionsData>
+    fun getAll(): LiveData<List<Solution>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(solutionData: SolutionsData)
+    fun insert(solutionData: Solution)
 
     @Query("DELETE from solutionsData")
     fun deleteAll()
 
     @Query("SELECT * FROM solutionsData WHERE id=:id")
-    fun getSolutionById(id: Int): SolutionsData
+    fun getSolutionById(id: Int): LiveData<Solution>
 }
 
 @Dao

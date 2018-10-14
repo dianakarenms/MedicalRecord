@@ -8,14 +8,17 @@
         android:id="@+id/itemRefValueNameTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:layout_toStartOf="@id/itemRefValueValueEdit"
+        android:layout_marginStart="8dp"
+        android:layout_toStartOf="@id/itemRefValueValueTxt"
+        android:layout_alignParentStart="true"
         tools:text="Cloruro de potasio ámpula de 10 ml"
+        android:lines="2"
+        android:gravity="center_vertical"
         android:textAllCaps="true"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
-    <EditText
-        android:id="@+id/itemRefValueValueEdit"
+    <TextView
+        android:id="@+id/itemRefValueValueTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

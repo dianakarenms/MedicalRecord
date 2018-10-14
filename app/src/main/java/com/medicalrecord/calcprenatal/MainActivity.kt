@@ -14,14 +14,14 @@ import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private var mPatientVM: PatientViewModel?= null
+    private var viewModel: PatientViewModel?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(mainToolbar)
 
-        mPatientVM = ViewModelProviders.of(this).get(PatientViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(PatientViewModel::class.java)
 
         toolbarMainDoctorSettingsBtn.onClick { startActivity<DoctorDataActivity>() }
         mainAddPatientBtn.onClick { startActivity<AddPatientActivity>() }
@@ -32,10 +32,10 @@ class MainActivity : AppCompatActivity() {
         mainPatientsRecycler.layoutManager = LinearLayoutManager(this@MainActivity)
         mainPatientsRecycler.adapter = adapter
 
-        mPatientVM?.allPatients?.observe(this, Observer<List<Patient>> { t -> adapter.setPatients(t!!) })
+        viewModel?.all?.observe(this, Observer<List<Patient>> { t -> adapter.setPatients(t!!) })
 
         /*
-        mPatientVM?.allPatients?.observe(this, object : Observer<List<Patient>> {
+        viewModel?.all?.observe(this, object : Observer<List<Patient>> {
             override fun onChanged(t: List<Patient>?) {
                 adapter.setPatients(t!!)
             }

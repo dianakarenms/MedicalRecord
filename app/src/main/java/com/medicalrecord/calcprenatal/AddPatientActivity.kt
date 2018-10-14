@@ -17,9 +17,23 @@ class AddPatientActivity : AppCompatActivity() {
         setSupportActionBar(addPatientToolbar)
 
         addPatientNextBtn.onClick {
-            val name = addPatientNameEdit.text.toString()
-            val weight = addPatientWeightEdit.text.toString()
-            startActivity<OtherInfoActivity>("name" to name, "weight" to weight)
+            var flag = 0
+            val name =
+                    if(addPatientNameEdit.text.isNotBlank()) {
+                        addPatientNameEdit.text.toString()
+                    } else {
+                        flag++
+                        addPatientNameEdit.error = "Requerido"
+                    }
+            val weight =
+                    if(addPatientWeightEdit.text.isNotBlank()) {
+                        addPatientWeightEdit.text.toString()
+                    } else {
+                        flag++
+                        addPatientWeightEdit.error = "Requerido"
+                    }
+            if(flag == 0)
+                startActivity<OtherInfoActivity>("name" to name, "weight" to weight)
         }
 
         addPatientCancelBtn.onClick { finish() }

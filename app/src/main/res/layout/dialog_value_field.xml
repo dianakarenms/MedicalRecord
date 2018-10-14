@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/etComments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:textSize="@dimen/text_lg"
+        android:inputType="numberDecimal"
+        android:background="@null"
+        android:lines="1"
+        android:maxLength="5"
+        android:scrollbars="vertical" />
+
+</LinearLayout>

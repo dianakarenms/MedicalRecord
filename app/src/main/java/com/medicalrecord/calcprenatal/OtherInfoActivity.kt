@@ -27,17 +27,41 @@ class OtherInfoActivity : AppCompatActivity() {
 
         otherInfoSaveBtn.onClick {
             val patient = Patient()
-            patient.name = intent.getStringExtra("name")
-            patient.record = otherInfoExpEdit.text.toString()
-            patient.bed = otherInfoBedEdit.text.toString()
-            patient.gestation = otherInfoGestationEdit.text.toString().toInt()
-            patient.dx = otherInfoDxEdit.text.toString()
-            patient.date = "vacío"
-            patient.weight = intent.getStringExtra("weight").toDouble()
-            //patientData.date = Calendar.getInstance().time.formatted
+            var flag = 0
+            val record = if(otherInfoExpEdit.text.isNotBlank()) { otherInfoExpEdit.text }
+                    else {
+                        flag++
+                        otherInfoExpEdit.error = "Requerido"
+                    }
+            val bed = if(otherInfoBedEdit.text.isNotBlank()) { otherInfoBedEdit.text }
+                    else {
+                        flag++
+                        otherInfoBedEdit.error = "Requerido"
+                    }
+            val gestation = if(otherInfoGestationEdit.text.isNotBlank()) { otherInfoGestationEdit.text }
+                    else {
+                        flag++
+                        otherInfoGestationEdit.error = "Requerido"
+                    }
+            val dx = if(otherInfoDxEdit.text.isNotBlank()) { otherInfoDxEdit.text }
+                    else {
+                        flag++
+                        otherInfoDxEdit.error = "Requerido"
+                    }
 
-            mPatientVM?.insert(patient)
-            backToHome()
+            if( flag == 0) {
+                patient.name = intent.getStringExtra("name")
+                patient.record = record.toString()
+                patient.bed = bed.toString()
+                patient.gestation = gestation.toString().toInt()
+                patient.dx = dx.toString()
+                patient.date = "vacío"
+                patient.weight = intent.getStringExtra("weight").toDouble()
+                //patientData.date = Calendar.getInstance().time.formatted
+
+                mPatientVM?.insert(patient)
+                backToHome()
+            }
         }
 
         otherInfoCancelBtn.onClick { backToHome() }

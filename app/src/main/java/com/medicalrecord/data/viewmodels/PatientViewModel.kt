@@ -8,14 +8,14 @@ import com.medicalrecord.data.repositories.PatientRepository
 
 class PatientViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val patientRepository: PatientRepository = PatientRepository(application)
-    internal val allPatients: LiveData<List<Patient>>
+    private val repository: PatientRepository = PatientRepository(application)
+    internal val all: LiveData<List<Patient>>
 
     init {
-        allPatients = patientRepository.getAllPatients()
+        all = repository.getAllPatients()
     }
 
     fun insert(patient: Patient) {
-        patientRepository.insert(patient)
+        repository.insert(patient)
     }
 }

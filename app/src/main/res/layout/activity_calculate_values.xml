@@ -88,19 +88,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calculateValuesCalculateBtn" />
 
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/calculateValuesCalculationsRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/item_calculation" />
-
     <LinearLayout
         android:id="@+id/calculateValuesWrapper"
         android:layout_width="match_parent"
@@ -109,7 +96,8 @@
         app:layout_constraintBottom_toTopOf="@+id/calculateValuesCalculationsRecycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calculateValuesWeightLabel">
+        app:layout_constraintTop_toBottomOf="@+id/calculateValuesWeightLabel"
+        android:visibility="gone">
 
         <!-- Solution -->
         <RelativeLayout
@@ -219,5 +207,32 @@
             android:layout_height="wrap_content"
             tools:listitem="@layout/item_ref_value" />
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/calculateValuesCalculationsRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/item_calculation"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/calculateValuesEmptyTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/calculate_values_empty_calculations"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="@color/grayBtn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"/>
 
 </android.support.constraint.ConstraintLayout>

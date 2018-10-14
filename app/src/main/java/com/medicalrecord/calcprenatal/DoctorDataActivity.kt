@@ -6,12 +6,13 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.text.Editable
 import com.medicalrecord.utils.PictureTools
 import com.medicalrecord.utils.PictureTools.Companion.REQUEST_READ_EXTERNAL_STORAGE
 import com.medicalrecord.utils.RealPathUtil
+import com.medicalrecord.utils.editable
 import kotlinx.android.synthetic.main.activity_doctor_data.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 /**
@@ -36,19 +37,17 @@ class DoctorDataActivity: AppCompatActivity() {
         editor = prefs!!.edit()
 
         val doctorName = prefs!!.getString(DOCTOR_NAME, "")
-        doctorDataNameEdit.text = Editable.Factory.getInstance().newEditable(doctorName)
+        doctorDataNameEdit.text = doctorName.editable
 
         pathImage = prefs!!.getString(DOCTOR_LOGO, "")
         setDoctorBitmapFromUri(pathImage!!)
 
+        doctorDataEditBtn.onClick { startActivity<EditValuesActivity>() }
         doctorDataPickLogoBtn.onClick {
             if (PictureTools.permissionReadMemory(this@DoctorDataActivity)) {
                 chooseImageFromGallery()
             }
         }
-
-        //doctorDataBackBtn.onClick { finish() }
-
         doctorDataSaveBtn.onClick {
             editor!!.putString(DOCTOR_NAME, doctorDataNameEdit.text.toString())
             pathImage?.let{ editor!!.putString(DOCTOR_LOGO, pathImage.toString()) }
