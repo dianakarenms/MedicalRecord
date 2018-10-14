@@ -92,7 +92,6 @@ class Constants {
         /**
          * Save and get HashMap in SharedPreference
          */
-
         fun saveHashMap(key: String, obj: Any, activity: Activity) {
             val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
             val editor = prefs.edit()

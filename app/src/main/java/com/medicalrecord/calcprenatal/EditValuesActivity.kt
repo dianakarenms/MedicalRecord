@@ -19,46 +19,59 @@ import org.jetbrains.anko.toast
 class EditValuesActivity: AppCompatActivity() {
 
     private val BASE_VALUES = "base_values"
+    private var prefsValues = linkedMapOf<String, Double>()
+    private var valuesList: MutableList<RefValue> = mutableListOf()
+    private var adapter: ValuesAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_values)
 
+        adapter = ValuesAdapter() {refValue, position ->
+            showEditValueDialog(refValue, position)
+        }
+        editValuesRecycler.adapter = adapter
+
         editValuesCancelBtn.onClick { finish() }
-        editValuesSaveBtn.onClick {  }
+        editValuesSaveBtn.onClick {
+            Constants.saveHashMap(BASE_VALUES, prefsValues, this@EditValuesActivity)
+            toast("Guardado exitoso")
+            finish()
+        }
 
         if( Constants.getHashMap(BASE_VALUES, this@EditValuesActivity) == null ) {
             Constants.saveHashMap(BASE_VALUES, Constants.baseValues, this@EditValuesActivity)
         }
 
         Constants.getHashMap(BASE_VALUES, this@EditValuesActivity).let {
-            prefsValues ->
-            var valuesList: MutableList<Value> = mutableListOf()
+            it ->
+            prefsValues = it!!
             if (prefsValues != null) {
                 for((key, value) in prefsValues) {
-                    val refValue = Value(key, value.toString())
+                    val refValue = RefValue(key, value.toString())
                     valuesList.add(refValue)
-                    editValuesRecycler.layoutManager = LinearLayoutManager(this@EditValuesActivity)
-                    editValuesRecycler.adapter = ValuesAdapter(valuesList) {
-                        showEditValueDialog(it.value)
-                    }
                 }
+                editValuesRecycler.layoutManager = LinearLayoutManager(this@EditValuesActivity)
+                adapter!!.setRefValues(valuesList)
             }
         }
     }
 
-    private fun showEditValueDialog(text: String) {
+    private fun showEditValueDialog(refValue: RefValue, position: Int) {
         val view = layoutInflater.inflate(R.layout.dialog_value_field, null);
         var alertDialog = AlertDialog.Builder(this@EditValuesActivity).create();
         alertDialog.setCancelable(true)
         alertDialog.setMessage("Editar valor")
 
         var etComments: EditText = view.findViewById(R.id.etComments)
-        etComments.text = text.editable
+        etComments.text = refValue.value.editable
         etComments.requestFocus()
 
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK") { dialogInterface: DialogInterface, i: Int ->
-            toast("ok")
+            val newVal = etComments.text.toString()
+            prefsValues[refValue.name] = newVal.toDouble()
+            valuesList[position].value = newVal
+            adapter?.notifyDataSetChanged()
         }
 
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel") { dialogInterface: DialogInterface, i: Int ->
@@ -70,7 +83,7 @@ class EditValuesActivity: AppCompatActivity() {
     }
 }
 
-class Value(
+class RefValue(
         var name: String,
         var value: String
 )
