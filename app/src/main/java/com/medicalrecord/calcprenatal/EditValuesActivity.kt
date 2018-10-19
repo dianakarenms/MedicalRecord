@@ -7,7 +7,10 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.EditText
 import com.medicalrecord.adapters.ValuesAdapter
-import com.medicalrecord.utils.Constants
+import com.medicalrecord.utils.Constants.Companion.BASE_VALUES
+import com.medicalrecord.utils.Constants.Companion.displayNames
+import com.medicalrecord.utils.Constants.Companion.getHashMap
+import com.medicalrecord.utils.Constants.Companion.saveHashMap
 import com.medicalrecord.utils.editable
 import kotlinx.android.synthetic.main.activity_edit_values.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -18,7 +21,6 @@ import org.jetbrains.anko.toast
  */
 class EditValuesActivity: AppCompatActivity() {
 
-    private val BASE_VALUES = "base_values"
     private var prefsValues = linkedMapOf<String, Double>()
     private var valuesList: MutableList<RefValue> = mutableListOf()
     private var adapter: ValuesAdapter? = null
@@ -34,16 +36,12 @@ class EditValuesActivity: AppCompatActivity() {
 
         editValuesCancelBtn.onClick { finish() }
         editValuesSaveBtn.onClick {
-            Constants.saveHashMap(BASE_VALUES, prefsValues, this@EditValuesActivity)
+            saveHashMap(BASE_VALUES, prefsValues, this@EditValuesActivity)
             toast("Guardado exitoso")
             finish()
         }
 
-        if( Constants.getHashMap(BASE_VALUES, this@EditValuesActivity) == null ) {
-            Constants.saveHashMap(BASE_VALUES, Constants.baseValues, this@EditValuesActivity)
-        }
-
-        Constants.getHashMap(BASE_VALUES, this@EditValuesActivity).let {
+        getHashMap(BASE_VALUES, this@EditValuesActivity).let {
             it ->
             prefsValues = it!!
             if (prefsValues != null) {
@@ -61,7 +59,7 @@ class EditValuesActivity: AppCompatActivity() {
         val view = layoutInflater.inflate(R.layout.dialog_value_field, null);
         var alertDialog = AlertDialog.Builder(this@EditValuesActivity).create();
         alertDialog.setCancelable(true)
-        alertDialog.setMessage("Editar valor")
+        alertDialog.setMessage(displayNames[refValue.name]?.toUpperCase())
 
         var etComments: EditText = view.findViewById(R.id.etComments)
         etComments.text = refValue.value.editable

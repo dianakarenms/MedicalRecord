@@ -6,6 +6,7 @@ import android.os.AsyncTask
 import com.medicalrecord.data.Calculation
 import com.medicalrecord.data.CalculationsDao
 import com.medicalrecord.data.MedicalRecordDataBase
+import com.medicalrecord.data.Solution
 
 class CalculationRepository(application: Application) {
 
@@ -26,7 +27,11 @@ class CalculationRepository(application: Application) {
         return calculationsDao.getCalculationsByPatientId(id)
     }
 
-    fun insert(calculation: Calculation) {
+    fun insert(calculation: Calculation, solution: Solution) {
+       // var calculationValues: CalculationValues =
+         //       CalculationValues(calculation, solution)
+
+        //InsertAsyncTask(calculationsDao).execute(calculationValues)
         InsertAsyncTask(calculationsDao).execute(calculation)
     }
 
@@ -37,5 +42,12 @@ class CalculationRepository(application: Application) {
             return null
         }
     }
+    /*private class InsertAsyncTask internal constructor(private val mAsyncTaskDao: CalculationsDao) : AsyncTask<CalculationValues, Void, Void>() {
+
+        override fun doInBackground(vararg params: CalculationValues): Void? {
+            mAsyncTaskDao.insertCalculationWithValues(params[0].calculation, params[0].solution)
+            return null
+        }
+    }*/
 
 }

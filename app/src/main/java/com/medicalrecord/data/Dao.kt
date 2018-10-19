@@ -56,6 +56,11 @@ interface PatientsDao {
 
 @Dao
 interface CalculationsDao {
+    /*fun insertCalculationWithValues(calculation: Calculation, solution: Solution) {
+        calculation.solutionId = insertSolution(solution).toInt()
+        insert(calculation)
+    }*/
+
     @Query("SELECT * from calculationsData")
     fun getAll(): LiveData<List<Calculation>>
 
@@ -67,6 +72,21 @@ interface CalculationsDao {
 
     @Query("SELECT * FROM calculationsData WHERE patientId=:patientId")
     fun getCalculationsByPatientId(patientId: Int): LiveData<List<Calculation>>
+
+    /*@Query("SELECT * from solutionsData")
+    fun getAllSolution(): LiveData<List<Solution>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertSolution(solutionData: Solution) : Long
+
+    @Query("DELETE from solutionsData")
+    fun deleteAllSolutions()
+
+    @Query("SELECT * FROM solutionsData WHERE id=:id")
+    fun getSolutionById(id: Int): LiveData<Solution>
+
+    @Query("SELECT last_insert_rowid()")
+    fun getLastInsertedId(): Long*/
 }
 
 @Dao
@@ -75,13 +95,16 @@ interface SolutionsDao {
     fun getAll(): LiveData<List<Solution>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(solutionData: Solution)
+    fun insert(solutionData: Solution) : Long
 
     @Query("DELETE from solutionsData")
     fun deleteAll()
 
     @Query("SELECT * FROM solutionsData WHERE id=:id")
     fun getSolutionById(id: Int): LiveData<Solution>
+
+    @Query("SELECT last_insert_rowid()")
+    fun getLastInsertedId(): Long
 }
 
 @Dao
@@ -97,6 +120,9 @@ interface AditionalDataDao {
 
     @Query("SELECT * FROM aditionalData WHERE id=:id")
     fun getAditionalDataById(id: Int): AditionalData
+
+    @Query("SELECT last_insert_rowid()")
+    fun getLastInsertedId(): Long
 }
 
 @Dao
@@ -112,4 +138,7 @@ interface DoctorReferenceDataDao {
 
     @Query("SELECT * FROM doctorReferenceData WHERE id=:id")
     fun getDoctorReferenceDataById(id: Int): DoctorReferenceData
+
+    @Query("SELECT last_insert_rowid()")
+    fun getLastInsertedId(): Long
 }

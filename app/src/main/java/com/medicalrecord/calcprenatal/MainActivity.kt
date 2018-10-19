@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import com.medicalrecord.adapters.PatientsAdapter
 import com.medicalrecord.data.Patient
 import com.medicalrecord.data.viewmodels.PatientViewModel
+import com.medicalrecord.utils.Constants
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
@@ -33,6 +34,10 @@ class MainActivity : AppCompatActivity() {
         mainPatientsRecycler.adapter = adapter
 
         viewModel?.all?.observe(this, Observer<List<Patient>> { t -> adapter.setPatients(t!!) })
+
+        if(Constants.getHashMap(Constants.BASE_VALUES, this@MainActivity) == null ) {
+            Constants.saveHashMap(Constants.BASE_VALUES, Constants.baseValues, this@MainActivity)
+        }
 
         /*
         viewModel?.all?.observe(this, object : Observer<List<Patient>> {

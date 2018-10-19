@@ -12,6 +12,8 @@ import com.medicalrecord.data.Solution
 class Constants {
     companion object {
 
+        val BASE_VALUES = "base_values"
+
         var baseValues = linkedMapOf(
                 "líquidos" to 150.0,
                 "sol_fisiológica_" to 0.0,

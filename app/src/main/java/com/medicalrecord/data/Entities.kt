@@ -35,9 +35,9 @@ data class Calculation(@PrimaryKey(autoGenerate = true) var id: Int?,
                        var patientId: Int,
                        var date: String,
                        var weight: Double,
-                       var solutionId: Int,
-                       var additionalId: Int,
-                       var doctorId: Int
+                       var solutionId: Int?,
+                       var additionalId: Int?,
+                       var doctorId: Int?
 
 
 ){
@@ -118,3 +118,11 @@ data class DoctorReferenceData(@PrimaryKey(autoGenerate = true) var id: Int?,
             0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
             0.0, 0.0, 0.0, 0.0)
 }
+
+//
+data class CalculationValues(
+        var calculation: Calculation,
+        var solution: Solution
+        //var aditionalData: AditionalData,
+        //var doctorReferenceData: DoctorReferenceData
+)

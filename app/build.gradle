@@ -38,6 +38,8 @@ dependencies {
     //lifecycle
     implementation "android.arch.lifecycle:extensions:$roomVersion"
     kapt "android.arch.lifecycle:compiler:$roomVersion"
+    //rxJava
+    implementation "android.arch.persistence.room:rxjava2:$roomVersion"
     //anko
     implementation "org.jetbrains.anko:anko:$ankoVersion"
     //testing
