@@ -1,10 +1,7 @@
 package com.medicalrecord.data
 
 import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 
 @Dao
 interface PatientsDao {
@@ -55,38 +52,41 @@ interface PatientsDao {
 }
 
 @Dao
-interface CalculationsDao {
-    /*fun insertCalculationWithValues(calculation: Calculation, solution: Solution) {
+abstract class CalculationsDao {
+    @Transaction
+    open fun insertCalculationWithValues(calculation: Calculation, solution: Solution) {
         calculation.solutionId = insertSolution(solution).toInt()
-        insert(calculation)
-    }*/
+        insertCalculation(calculation)
+    }
 
+    /** Calculations **/
     @Query("SELECT * from calculationsData")
-    fun getAll(): LiveData<List<Calculation>>
+    abstract fun getAll(): LiveData<List<Calculation>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(calculation: Calculation)
+    abstract fun insertCalculation(calculation: Calculation)
 
     @Query("DELETE from calculationsData")
-    fun deleteAll()
+    abstract fun deleteAll()
 
     @Query("SELECT * FROM calculationsData WHERE patientId=:patientId")
-    fun getCalculationsByPatientId(patientId: Int): LiveData<List<Calculation>>
+    abstract fun getCalculationsByPatientId(patientId: Int): LiveData<List<Calculation>>
 
-    /*@Query("SELECT * from solutionsData")
-    fun getAllSolution(): LiveData<List<Solution>>
+    /** Solutions **/
+    @Query("SELECT * from solutionsData")
+    abstract fun getAllSolution(): LiveData<List<Solution>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertSolution(solutionData: Solution) : Long
+    abstract fun insertSolution(solutionData: Solution) : Long
 
     @Query("DELETE from solutionsData")
-    fun deleteAllSolutions()
+    abstract fun deleteAllSolutions()
 
     @Query("SELECT * FROM solutionsData WHERE id=:id")
-    fun getSolutionById(id: Int): LiveData<Solution>
+    abstract fun getSolutionById(id: Int): LiveData<Solution>
 
     @Query("SELECT last_insert_rowid()")
-    fun getLastInsertedId(): Long*/
+    abstract  fun getLastInsertedId(): Long
 }
 
 @Dao

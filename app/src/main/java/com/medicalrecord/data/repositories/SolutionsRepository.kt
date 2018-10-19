@@ -2,7 +2,6 @@ package com.medicalrecord.data.repositories
 
 import android.app.Application
 import android.arch.lifecycle.LiveData
-import android.os.AsyncTask
 import android.util.Log
 import com.medicalrecord.data.MedicalRecordDataBase
 import com.medicalrecord.data.Solution
@@ -39,7 +38,7 @@ class SolutionsRepository(application: Application) {
                 }
     }
 
-    fun getLastInsertedId() : Long {
+    /*fun getLastInsertedId() : Long {
         return dao.getLastInsertedId()
     }
 
@@ -49,6 +48,6 @@ class SolutionsRepository(application: Application) {
             mAsyncTaskDao.insert(params[0])
             return null
         }
-    }
+    }*/
 
 }

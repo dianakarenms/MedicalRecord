@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import com.medicalrecord.data.Calculation
 import com.medicalrecord.data.Patient
@@ -16,6 +17,7 @@ import com.medicalrecord.utils.formatted
 import kotlinx.android.synthetic.main.activity_calculate_values.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import java.lang.Math.round
 import java.util.*
 
@@ -86,8 +88,17 @@ class CalculateValuesActivity: AppCompatActivity() {
             ps.calchs50 = Double(round(100 * ((dv.chs_50 * 3.4 * 100) / ps.calorías_tot)) / 100)
             ps.calchs10 = Double(round(100 * ((dv.chs_10 * 3.4 * 100) / ps.calorías_tot)) / 100)*/
 
-            //viewModel?.insert(calculation, ps)
-            viewModel?.insertSolution(ps)
+            //viewModel?.insertCalculation(calculation, ps)
+            viewModel?.insert(calculation, ps)
+
+            viewModel?.getAllSolutions()?.observe(this@CalculateValuesActivity, Observer<List<Solution>> { t ->
+                    if (t?.isNotEmpty()!!) {
+                        for (solution in t) Log.d("solId", solution.id.toString())
+                    } else {
+                        toast("no solutions")
+                    }
+                }
+            )
         }
 
         viewModel = ViewModelProviders.of(this, CustomViewModelFactory(this.application, patient.id!!)).get(CalculationViewModel::class.java)

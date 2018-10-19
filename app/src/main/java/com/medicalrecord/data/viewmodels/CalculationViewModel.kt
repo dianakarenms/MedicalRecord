@@ -29,6 +29,10 @@ class CalculationViewModel(application: Application, patientId: Int) : AndroidVi
         solutionsRepository.insert(solution)
 
         /*val dao = medicalRecordDataBase?.solutionsDao()!!
-        dao.insert(solution)*/
+        dao.insertCalculation(solution)*/
+    }
+
+    fun getAllSolutions() : LiveData<List<Solution>> {
+        return solutionsRepository.getAllSolutions()
     }
 }

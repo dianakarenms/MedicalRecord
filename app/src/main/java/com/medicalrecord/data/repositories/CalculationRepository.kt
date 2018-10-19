@@ -3,10 +3,13 @@ package com.medicalrecord.data.repositories
 import android.app.Application
 import android.arch.lifecycle.LiveData
 import android.os.AsyncTask
+import android.util.Log
 import com.medicalrecord.data.Calculation
 import com.medicalrecord.data.CalculationsDao
 import com.medicalrecord.data.MedicalRecordDataBase
 import com.medicalrecord.data.Solution
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 
 class CalculationRepository(application: Application) {
 
@@ -32,13 +35,19 @@ class CalculationRepository(application: Application) {
          //       CalculationValues(calculation, solution)
 
         //InsertAsyncTask(calculationsDao).execute(calculationValues)
-        InsertAsyncTask(calculationsDao).execute(calculation)
+        Observable.fromCallable { calculationsDao.insertCalculationWithValues(calculation, solution) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe {
+                    Log.d("calcRepo", "inserted calculation ${it.toString()}")
+                }
+        //InsertAsyncTask(calculationsDao).execute(calculation)
     }
 
     private class InsertAsyncTask internal constructor(private val mAsyncTaskDao: CalculationsDao) : AsyncTask<Calculation, Void, Void>() {
 
         override fun doInBackground(vararg params: Calculation): Void? {
-            mAsyncTaskDao.insert(params[0])
+            mAsyncTaskDao.insertCalculation(params[0])
             return null
         }
     }
