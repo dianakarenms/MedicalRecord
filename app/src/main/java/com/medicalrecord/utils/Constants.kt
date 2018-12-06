@@ -4,9 +4,6 @@ import android.app.Activity
 import android.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.medicalrecord.data.AditionalData
-import com.medicalrecord.data.DoctorReferenceData
-import com.medicalrecord.data.Solution
 
 
 class Constants {
@@ -115,64 +112,26 @@ class Constants {
             else
                 null
         }
-        var solutions = Solution(
-                null,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0, 0.0,
-                3.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0
-        )
 
-        var aditionalData = AditionalData(
-                null,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0
-        )
-
-        var doctorReference = DoctorReferenceData(
-                null,
-                150.0,
-                0.0,
-                0.0,
-                3.5,
-                0.0,
-                8.5,
-                0.0,
-                0.0,
-                3.0,
-                0.0,
-                3.5,
-                100.0,
-                40.0,
-                3.0,
-                1.5,
-                1.5,
-                0.5
-        )
+        var solutionValuesKeys = listOf(
+            "líquidos_iv_tot",
+            "sol_fisiológica",
+            "trophamine_10",
+            "trophamine_8",
+            "intralipid_20",
+            "sg_50",
+            "sg_10",
+            "kcl_amp_10",
+            "kcl_amp_5",
+            "naclhip",
+            "fosfato_k",
+            "glucca",
+            "magnesio",
+            "mvi",
+            "oligoelementos",
+            "l_cisteína",
+            "carnitina",
+            "heparina",
+            "abd")
     }
 }

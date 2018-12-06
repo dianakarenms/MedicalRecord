@@ -2,12 +2,8 @@ package com.medicalrecord.data.repositories
 
 import android.app.Application
 import android.arch.lifecycle.LiveData
-import android.os.AsyncTask
 import android.util.Log
-import com.medicalrecord.data.Calculation
-import com.medicalrecord.data.CalculationsDao
-import com.medicalrecord.data.MedicalRecordDataBase
-import com.medicalrecord.data.Solution
+import com.medicalrecord.data.*
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
@@ -26,37 +22,16 @@ class CalculationRepository(application: Application) {
         return listLiveData
     }
 
-    fun getCalculationsByPatientId(id: Int): LiveData<List<Calculation>> {
+    fun getCalculationsByPatientId(id: Long): LiveData<List<Calculation>> {
         return calculationsDao.getCalculationsByPatientId(id)
     }
 
-    fun insert(calculation: Calculation, solution: Solution) {
-       // var calculationValues: CalculationValues =
-         //       CalculationValues(calculation, solution)
-
-        //InsertAsyncTask(calculationsDao).execute(calculationValues)
-        Observable.fromCallable { calculationsDao.insertCalculationWithValues(calculation, solution) }
+    fun insert(calculation: Calculation, solution: Solution, additionalInfo: AdditionalInfo, doctorReference: DoctorReference) {
+        Observable.fromCallable { calculationsDao.insertCalculationWithValues(calculation, solution, additionalInfo, doctorReference) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe {
                     Log.d("calcRepo", "inserted calculation ${it.toString()}")
                 }
-        //InsertAsyncTask(calculationsDao).execute(calculation)
     }
-
-    private class InsertAsyncTask internal constructor(private val mAsyncTaskDao: CalculationsDao) : AsyncTask<Calculation, Void, Void>() {
-
-        override fun doInBackground(vararg params: Calculation): Void? {
-            mAsyncTaskDao.insertCalculation(params[0])
-            return null
-        }
-    }
-    /*private class InsertAsyncTask internal constructor(private val mAsyncTaskDao: CalculationsDao) : AsyncTask<CalculationValues, Void, Void>() {
-
-        override fun doInBackground(vararg params: CalculationValues): Void? {
-            mAsyncTaskDao.insertCalculationWithValues(params[0].calculation, params[0].solution)
-            return null
-        }
-    }*/
-
 }

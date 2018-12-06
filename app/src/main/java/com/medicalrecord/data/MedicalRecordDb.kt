@@ -10,16 +10,16 @@ import android.content.Context
     Patient::class,
     Calculation::class,
     Solution::class,
-    AditionalData::class,
-    DoctorReferenceData::class
+    AdditionalInfo::class,
+    DoctorReference::class
 ], version = 1)
 abstract class MedicalRecordDataBase : RoomDatabase() {
 
     abstract fun patientDao(): PatientsDao
     abstract fun calculationsDao(): CalculationsDao
-    abstract fun solutionsDao(): SolutionsDao
+    /*abstract fun solutionsDao(): SolutionsDao
     abstract fun aditionalDataDao(): AditionalDataDao
-    abstract fun doctorReferenceDataDao(): DoctorReferenceDataDao
+    abstract fun doctorReferenceDataDao(): DoctorReferenceDataDao*/
 
     companion object {
         private var INSTANCE: MedicalRecordDataBase? = null

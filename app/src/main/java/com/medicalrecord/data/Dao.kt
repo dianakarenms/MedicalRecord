@@ -53,10 +53,26 @@ interface PatientsDao {
 
 @Dao
 abstract class CalculationsDao {
+
     @Transaction
-    open fun insertCalculationWithValues(calculation: Calculation, solution: Solution) {
-        calculation.solutionId = insertSolution(solution).toInt()
+    open fun insertCalculationWithValues(
+            calculation: Calculation,
+            solution: Solution,
+            addInf: AdditionalInfo,
+            docref: DoctorReference) {
+        calculation.solutionId = insertSolution(solution)
+        calculation.additionalId = insertAddInfo(addInf)
+        calculation.doctorId = insertDocRef(docref)
         insertCalculation(calculation)
+    }
+
+    @Transaction
+    open fun getCalculationValuesByPatientId(patientId: Long): List<Calculation> {
+        val calculations = getCalculationsByPatientId(patientId).value!!
+        for(calculation in calculations) {
+            calculation.solution = calculation.solutionId?.let { getSolutionById(calculation.solutionId!!) }
+        }
+        return calculations
     }
 
     /** Calculations **/
@@ -70,7 +86,7 @@ abstract class CalculationsDao {
     abstract fun deleteAll()
 
     @Query("SELECT * FROM calculationsData WHERE patientId=:patientId")
-    abstract fun getCalculationsByPatientId(patientId: Int): LiveData<List<Calculation>>
+    abstract fun getCalculationsByPatientId(patientId: Long): LiveData<List<Calculation>>
 
     /** Solutions **/
     @Query("SELECT * from solutionsData")
@@ -83,62 +99,85 @@ abstract class CalculationsDao {
     abstract fun deleteAllSolutions()
 
     @Query("SELECT * FROM solutionsData WHERE id=:id")
-    abstract fun getSolutionById(id: Int): LiveData<Solution>
+    abstract fun getSolutionById(id: Long): Solution?
 
-    @Query("SELECT last_insert_rowid()")
-    abstract  fun getLastInsertedId(): Long
-}
-
-@Dao
-interface SolutionsDao {
-    @Query("SELECT * from solutionsData")
-    fun getAll(): LiveData<List<Solution>>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(solutionData: Solution) : Long
-
-    @Query("DELETE from solutionsData")
-    fun deleteAll()
-
-    @Query("SELECT * FROM solutionsData WHERE id=:id")
-    fun getSolutionById(id: Int): LiveData<Solution>
-
-    @Query("SELECT last_insert_rowid()")
-    fun getLastInsertedId(): Long
-}
-
-@Dao
-interface AditionalDataDao {
+    /** Additional info **/
     @Query("SELECT * from aditionalData")
-    fun getAll(): List<AditionalData>
+    abstract fun getAllAddInfo(): List<AdditionalInfo>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(aditionalData: AditionalData)
+    abstract fun insertAddInfo(additionalInfo: AdditionalInfo) : Long
 
     @Query("DELETE from aditionalData")
-    fun deleteAll()
+    abstract fun deleteAllAddInfo()
 
     @Query("SELECT * FROM aditionalData WHERE id=:id")
-    fun getAditionalDataById(id: Int): AditionalData
+    abstract fun getAditionalDataById(id: Long): AdditionalInfo
 
-    @Query("SELECT last_insert_rowid()")
-    fun getLastInsertedId(): Long
-}
-
-@Dao
-interface DoctorReferenceDataDao {
+    /** Doctor Reference **/
     @Query("SELECT * from doctorReferenceData")
-    fun getAll(): List<DoctorReferenceData>
+    abstract fun getAllDocRef(): List<DoctorReference>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(doctorReferenceData: DoctorReferenceData)
+    abstract fun insertDocRef(doctorReference: DoctorReference) : Long
 
     @Query("DELETE from doctorReferenceData")
-    fun deleteAll()
+    abstract fun deleteAllDocRef()
 
     @Query("SELECT * FROM doctorReferenceData WHERE id=:id")
-    fun getDoctorReferenceDataById(id: Int): DoctorReferenceData
-
-    @Query("SELECT last_insert_rowid()")
-    fun getLastInsertedId(): Long
+    abstract fun getDoctorReferenceDataById(id: Long): DoctorReference
 }
+
+// @Dao
+// interface SolutionsDao {
+// @Query("SELECT * from solutionsData")
+// fun getAll(): LiveData<List<Solution>>
+//
+// @Insert(onConflict = OnConflictStrategy.REPLACE)
+// fun insert(solutionData: Solution) : Long
+//
+// @Query("DELETE from solutionsData")
+// fun deleteAll()
+//
+// @Query("SELECT * FROM solutionsData WHERE id=:id")
+// fun getSolutionById(id: Int): LiveData<Solution>
+//
+// @Query("SELECT last_insert_rowid()")
+// fun getLastInsertedId(): Long
+// }
+//
+// @Dao
+// abstract class AditionalDataDao {
+// @Query("SELECT * from aditionalData")
+// abstract fun getAll(): List<AdditionalInfo>
+//
+// @Insert(onConflict = OnConflictStrategy.REPLACE)
+// abstract fun insert(aditionalData: AdditionalInfo) : Long
+//
+// @Query("DELETE from aditionalData")
+// abstract fun deleteAll()
+//
+// @Query("SELECT * FROM aditionalData WHERE id=:id")
+// abstract fun getAditionalDataById(id: Int): AdditionalInfo
+//
+// @Query("SELECT last_insert_rowid()")
+// abstract fun getLastInsertedId(): Long
+// }
+//
+// @Dao
+// interface DoctorReferenceDataDao {
+// @Query("SELECT * from doctorReferenceData")
+// fun getAll(): List<DoctorReferenceData>
+//
+// @Insert(onConflict = OnConflictStrategy.REPLACE)
+// fun insert(doctorReferenceData: DoctorReferenceData)
+//
+// @Query("DELETE from doctorReferenceData")
+// fun deleteAll()
+//
+// @Query("SELECT * FROM doctorReferenceData WHERE id=:id")
+// fun getDoctorReferenceDataById(id: Int): DoctorReferenceData
+//
+// @Query("SELECT last_insert_rowid()")
+// fun getLastInsertedId(): Long
+// }

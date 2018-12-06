@@ -33,6 +33,7 @@ class EditValuesActivity: AppCompatActivity() {
             showEditValueDialog(refValue, position)
         }
         editValuesRecycler.adapter = adapter
+        editValuesRecycler.layoutManager = LinearLayoutManager(this@EditValuesActivity)
 
         editValuesCancelBtn.onClick { finish() }
         editValuesSaveBtn.onClick {
@@ -49,7 +50,6 @@ class EditValuesActivity: AppCompatActivity() {
                     val refValue = RefValue(key, value.toString())
                     valuesList.add(refValue)
                 }
-                editValuesRecycler.layoutManager = LinearLayoutManager(this@EditValuesActivity)
                 adapter!!.setRefValues(valuesList)
             }
         }

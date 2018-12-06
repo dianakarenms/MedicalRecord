@@ -4,14 +4,14 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.medicalrecord.data.Calculation
-import com.medicalrecord.data.Patient
-import com.medicalrecord.data.Solution
+import com.medicalrecord.adapters.ValuesAdapter
+import com.medicalrecord.data.*
 import com.medicalrecord.data.viewmodels.CalculationViewModel
 import com.medicalrecord.utils.Constants.Companion.BASE_VALUES
 import com.medicalrecord.utils.Constants.Companion.getHashMap
+import com.medicalrecord.utils.Constants.Companion.solutionValuesKeys
 import com.medicalrecord.utils.CustomViewModelFactory
 import com.medicalrecord.utils.formatted
 import kotlinx.android.synthetic.main.activity_calculate_values.*
@@ -26,12 +26,20 @@ import java.util.*
  */
 class CalculateValuesActivity: AppCompatActivity() {
 
-    private var viewModel: CalculationViewModel?= null
+    private var viewModel: CalculationViewModel? = null
+    private var adapter: ValuesAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calculate_values)
         setSupportActionBar(calculateValuesToolbar)
+
+        adapter = ValuesAdapter() {refValue, position ->
+            toast("clicked ${refValue.name}")
+            //showEditValueDialog(refValue, position)
+        }
+        calculateValuesRecycler1.adapter = adapter
+        calculateValuesRecycler1.layoutManager = LinearLayoutManager(this@CalculateValuesActivity)
 
         val patient = intent.getSerializableExtra("patient") as Patient
         val dv = getHashMap( BASE_VALUES, this@CalculateValuesActivity )!!
@@ -42,7 +50,7 @@ class CalculateValuesActivity: AppCompatActivity() {
             // La magia comienza
             var ps = Solution()
             val weight = patient.weight
-            val calculation = Calculation(null, patient.id!!,  Calendar.getInstance().time.formatted, weight, null, null, null )
+            val calculation = Calculation(null, patient.id!!,  Calendar.getInstance().time.formatted, weight, null, null, null, null, null, null )
 
             val proteins = maxOf(dv["prot_10"]!!, dv["prot_8"]!!)
             val carbs = maxOf(dv["chs_50"]!!, dv["chs_10"]!!)
@@ -88,25 +96,22 @@ class CalculateValuesActivity: AppCompatActivity() {
             ps.calchs50 = Double(round(100 * ((dv.chs_50 * 3.4 * 100) / ps.calorías_tot)) / 100)
             ps.calchs10 = Double(round(100 * ((dv.chs_10 * 3.4 * 100) / ps.calorías_tot)) / 100)*/
 
-            //viewModel?.insertCalculation(calculation, ps)
-            viewModel?.insert(calculation, ps)
-
-            viewModel?.getAllSolutions()?.observe(this@CalculateValuesActivity, Observer<List<Solution>> { t ->
-                    if (t?.isNotEmpty()!!) {
-                        for (solution in t) Log.d("solId", solution.id.toString())
-                    } else {
-                        toast("no solutions")
-                    }
-                }
-            )
+            viewModel?.insert(calculation, ps, AdditionalInfo(), DoctorReference())
         }
 
         viewModel = ViewModelProviders.of(this, CustomViewModelFactory(this.application, patient.id!!)).get(CalculationViewModel::class.java)
-        viewModel?.all?.observe(this, Observer<List<Calculation>> { t ->
-                if(t?.isNotEmpty()!!) {
+
+        viewModel?.getCalculationsByPatientId(patient.id!!)?.observe(this@CalculateValuesActivity, Observer<List<Calculation>> { calculations ->
+                if (calculations?.isNotEmpty()!!) {
                     calculateValuesWrapper.visibility = View.VISIBLE
                     calculateValuesCalculationsRecycler.visibility = View.VISIBLE
                     calculateValuesEmptyTxt.visibility = View.GONE
+                    var solRefVals = mutableListOf<RefValue>()
+                    for(key in solutionValuesKeys) {
+                        solRefVals.add(RefValue(key, calculations.last().solution?.líquidos_iv_tot.toString()))
+                    }
+                    adapter!!.setRefValues(solRefVals)
+                    //toast("last=${calculations.last().solutionId}")
                 } else {
                     calculateValuesWrapper.visibility = View.GONE
                     calculateValuesCalculationsRecycler.visibility = View.GONE
