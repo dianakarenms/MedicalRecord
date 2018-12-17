@@ -2,7 +2,9 @@ package com.medicalrecord.data.repositories
 
 import android.app.Application
 import android.arch.lifecycle.LiveData
+import android.os.AsyncTask
 import android.util.Log
+import com.medicalrecord.calcprenatal.RefValue
 import com.medicalrecord.data.*
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -23,11 +25,12 @@ class CalculationRepository(application: Application) {
     }
 
     fun getCalculationsByPatientId(id: Long): LiveData<List<Calculation>> {
+        //CalculationsAsyncTask(calculationsDao).execute(id)
         return calculationsDao.getCalculationsByPatientId(id)
     }
 
-    fun insert(calculation: Calculation, solution: Solution, additionalInfo: AdditionalInfo, doctorReference: DoctorReference) {
-        Observable.fromCallable { calculationsDao.insertCalculationWithValues(calculation, solution, additionalInfo, doctorReference) }
+    fun insert(calculation: Calculation) {
+        Observable.fromCallable { calculationsDao.insertCalculationWithValues(calculation) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe {

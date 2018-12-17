@@ -7,18 +7,19 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.medicalrecord.adapters.ValuesAdapter
-import com.medicalrecord.data.*
+import com.medicalrecord.data.Calculation
+import com.medicalrecord.data.Patient
+import com.medicalrecord.data.Solution
 import com.medicalrecord.data.viewmodels.CalculationViewModel
+import com.medicalrecord.utils.Constants
 import com.medicalrecord.utils.Constants.Companion.BASE_VALUES
 import com.medicalrecord.utils.Constants.Companion.getHashMap
-import com.medicalrecord.utils.Constants.Companion.solutionValuesKeys
 import com.medicalrecord.utils.CustomViewModelFactory
 import com.medicalrecord.utils.formatted
 import kotlinx.android.synthetic.main.activity_calculate_values.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
-import java.lang.Math.round
 import java.util.*
 
 /**
@@ -29,6 +30,9 @@ class CalculateValuesActivity: AppCompatActivity() {
     private var viewModel: CalculationViewModel? = null
     private var adapter: ValuesAdapter? = null
 
+    private lateinit var patient: Patient
+    private lateinit var dv: LinkedHashMap<String, Double>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calculate_values)
@@ -36,51 +40,25 @@ class CalculateValuesActivity: AppCompatActivity() {
 
         adapter = ValuesAdapter() {refValue, position ->
             toast("clicked ${refValue.name}")
-            //showEditValueDialog(refValue, position)
+            //showEditValueDialog(refValues, position)
         }
         calculateValuesRecycler1.adapter = adapter
         calculateValuesRecycler1.layoutManager = LinearLayoutManager(this@CalculateValuesActivity)
 
-        val patient = intent.getSerializableExtra("patient") as Patient
-        val dv = getHashMap( BASE_VALUES, this@CalculateValuesActivity )!!
+        patient = intent.getSerializableExtra("patient") as Patient
+        dv = getHashMap( BASE_VALUES, this@CalculateValuesActivity )!!
 
         toolbarCalculateValuesEditBtn.onClick { startActivity<EditValuesActivity>() }
         calculateValuesCreateBtn.onClick { startActivity<AditionalInstrActivity>() }
         calculateValuesCalculateBtn.onClick {
             // La magia comienza
-            var ps = Solution()
             val weight = patient.weight
-            val calculation = Calculation(null, patient.id!!,  Calendar.getInstance().time.formatted, weight, null, null, null, null, null, null )
+            val calculation = Calculation(null, patient.id!!,  Calendar.getInstance().time.formatted, weight)
 
-            val proteins = maxOf(dv["prot_10"]!!, dv["prot_8"]!!)
+
             val carbs = maxOf(dv["chs_50"]!!, dv["chs_10"]!!)
             val liquids = maxOf(dv["naclhip_"]!!, dv["sol_fisiológica_"]!!)
             val potasium = maxOf(maxOf(dv["kcl_amp_10_"]!!,dv["kcl_amp_5_"]!!), dv["fosfato_k_"]!!)
-
-            ps.líquidos_iv_tot = (round(100 * (weight * dv["líquidos"]!!)) / 100).toDouble()
-            ps.trophamine_10 = (round(100 * (weight * dv["prot_10"]!! / 0.1)) / 100).toDouble()
-            ps.trophamine_8 = (round(100 * (weight * dv["prot_8"]!! / 0.08)) / 100).toDouble()
-            ps.intralipid_20 = (round(100 * (weight * dv["lípidos"]!! * 5)) / 100).toDouble()
-            ps.sg_50 = (round(100 * (weight * dv["chs_50"]!! * 1440 / 500)) / 100).toDouble()
-            ps.sg_10 = (round(100 * (weight * dv["chs_10"]!! * 1440 / 100)) / 100).toDouble()
-            ps.kcl_amp_10 = (round(100 * (weight * dv["kcl_amp_10_"]!! / 2)) / 100).toDouble()
-            ps.kcl_amp_5 = (round(100 * (weight * dv["kcl_amp_5_"]!! / 4)) / 100).toDouble()
-            ps.naclhip = (round(100 * (weight * dv["naclhip_"]!! / 3)) / 100).toDouble()
-            ps.sol_fisiológica = (round(100 * (weight * dv["sol_fisiológica_"]!! * 100 / 15.4)) / 100).toDouble()
-            ps.fosfato_k = (round(100 * (weight * dv["fosfato_k_"]!! / 1.102)) / 100).toDouble()
-            ps.glucca = (round(100 * (weight * dv["calcio_"]!! / 100)) / 100).toDouble()
-            ps.magnesio = (round(100 * (weight * dv["magnesio_"]!! * 0.01)) / 100).toDouble()
-            ps.mvi = if((1.7 * weight) > 5) { 5.0 } else { (round(100 * (1.7 * weight)) / 100).toDouble()}
-            ps.oligoelementos = (round(100 * (dv["oligoelementos_"]!! * weight)) / 100).toDouble()
-            ps.l_cisteína = if((proteins * weight * 100 / 2.5) > 100) { 100.0 } else { (round(100 * (proteins * weight * 100 / 2.5)) / 100).toDouble() }
-            ps.carnitina = (round(100 * (dv["carnitina_"]!! * weight)) / 100).toDouble()
-            if (patient.gestation >= 32) {
-                ps.heparina = 0.0
-            }else {
-                ps.heparina = (round(100 * (dv["heparina_"]!! * ps.intralipid_20)) / 100).toDouble()
-            }
-            val sum = (round(100 * (ps.oligoelementos + ps.mvi + ps.magnesio + ps.glucca + ps.fosfato_k + ps.naclhip + ps.sol_fisiológica + ps.trophamine_10 + ps.trophamine_8 + ps.sg_50 + ps.sg_10 + ps.kcl_amp_10 + ps.kcl_amp_5 + ps.intralipid_20)) / 100)
-            ps.abd = (round(100 * (ps.líquidos_iv_tot - sum)) / 100).toDouble()
 
             /*ps.líquidos_tot = ps.líquidos_iv_tot
             ps.calorías_tot = Double(round(100 * ((carbs * 3.4) + (dv.lípidos * 11) + (proteins * 4))) / 100)
@@ -95,31 +73,90 @@ class CalculateValuesActivity: AppCompatActivity() {
             ps.calgrasa = Double(round(100 * ((dv.lípidos * 11 * 100) / ps.calorías_tot)) / 100)
             ps.calchs50 = Double(round(100 * ((dv.chs_50 * 3.4 * 100) / ps.calorías_tot)) / 100)
             ps.calchs10 = Double(round(100 * ((dv.chs_10 * 3.4 * 100) / ps.calorías_tot)) / 100)*/
-
-            viewModel?.insert(calculation, ps, AdditionalInfo(), DoctorReference())
+            calculation.refValues?.addAll(solutions())
+            viewModel?.insert(calculation)
         }
 
         viewModel = ViewModelProviders.of(this, CustomViewModelFactory(this.application, patient.id!!)).get(CalculationViewModel::class.java)
 
         viewModel?.getCalculationsByPatientId(patient.id!!)?.observe(this@CalculateValuesActivity, Observer<List<Calculation>> { calculations ->
                 if (calculations?.isNotEmpty()!!) {
-                    calculateValuesWrapper.visibility = View.VISIBLE
-                    calculateValuesCalculationsRecycler.visibility = View.VISIBLE
-                    calculateValuesEmptyTxt.visibility = View.GONE
-                    var solRefVals = mutableListOf<RefValue>()
-                    for(key in solutionValuesKeys) {
-                        solRefVals.add(RefValue(key, calculations.last().solution?.líquidos_iv_tot.toString()))
-                    }
-                    adapter!!.setRefValues(solRefVals)
-                    //toast("last=${calculations.last().solutionId}")
+                    hideEmptyStateView()
+                    calculations.last().refValues?.let { adapter!!.setRefValues(it) }
                 } else {
-                    calculateValuesWrapper.visibility = View.GONE
-                    calculateValuesCalculationsRecycler.visibility = View.GONE
-                    calculateValuesEmptyTxt.visibility = View.VISIBLE
+                    showEmptyStateView()
                 }
             }
         )
 
         calculateValuesWeightTxt.text = "${patient.weight} Kg"
     }
+
+    private fun showEmptyStateView() {
+        calculateValuesWrapper.visibility = View.GONE
+        calculateValuesCalculationsRecycler.visibility = View.GONE
+        calculateValuesEmptyTxt.visibility = View.VISIBLE
+    }
+
+    private fun hideEmptyStateView() {
+        calculateValuesWrapper.visibility = View.VISIBLE
+        calculateValuesCalculationsRecycler.visibility = View.VISIBLE
+        calculateValuesEmptyTxt.visibility = View.GONE
+    }
+
+    // region Calculations
+    fun solutions(): MutableList<RefValue> {
+        val weight = patient.weight
+        val proteins = maxOf(dv["prot_10"]!!, dv["prot_8"]!!)
+        var ps = Solution()
+        ps.líquidos_iv_tot = weight * dv["líquidos"]!!
+        ps.trophamine_10 = weight * dv["prot_10"]!! / 0.1
+        ps.trophamine_8 = weight * dv["prot_8"]!! / 0.08
+        ps.intralipid_20 = weight * dv["lípidos"]!! * 5
+        ps.sg_50 = weight * dv["chs_50"]!! * 1440 / 500
+        ps.sg_10 = weight * dv["chs_10"]!! * 1440 / 100
+        ps.kcl_amp_10 = weight * dv["kcl_amp_10_"]!! / 2
+        ps.kcl_amp_5 = weight * dv["kcl_amp_5_"]!! / 4
+        ps.naclhip = weight * dv["naclhip_"]!! / 3
+        ps.sol_fisiológica = weight * dv["sol_fisiológica_"]!! * 100 / 15.4
+        ps.fosfato_k = weight * dv["fosfato_k_"]!! / 1.102
+        ps.glucca = weight * dv["calcio_"]!! / 100
+        ps.magnesio = weight * dv["magnesio_"]!! * 0.01
+        ps.mvi = if((1.7 * weight) > 5) { 5.0 } else { 1.7 * weight}
+        ps.oligoelementos = dv["oligoelementos_"]!! * weight
+        ps.l_cisteína = if((proteins * weight * 100 / 2.5) > 100) { 100.0 } else { proteins * weight * 100 / 2.5 }
+        ps.carnitina = dv["carnitina_"]!! * weight
+        if (patient.gestation >= 32) {
+            ps.heparina = 0.0
+        }else {
+            ps.heparina = dv["heparina_"]!! * ps.intralipid_20
+        }
+        val sum = ps.oligoelementos + ps.mvi + ps.magnesio + ps.glucca + ps.fosfato_k + ps.naclhip + ps.sol_fisiológica + ps.trophamine_10 + ps.trophamine_8 + ps.sg_50 + ps.sg_10 + ps.kcl_amp_10 + ps.kcl_amp_5 + ps.intralipid_20
+        ps.abd = ps.líquidos_iv_tot - sum
+
+        // REF VALUES LIST
+        var solutionRefValues = mutableListOf<RefValue>()
+        solutionRefValues.add(RefValue("líquidos_iv_tot", ps.líquidos_iv_tot, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("sol_fisiológica", ps.sol_fisiológica, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("trophamine_10", ps.trophamine_10, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("trophamine_8", ps.trophamine_8, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("intralipid_20", ps.intralipid_20, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("sg_50", ps.sg_50, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("sg_10", ps.sg_10, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("kcl_amp_10", ps.kcl_amp_10, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("kcl_amp_5", ps.kcl_amp_5, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("naclhip", ps.naclhip, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("fosfato_k", ps.fosfato_k, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("glucca", ps.glucca, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("magnesio", ps.magnesio, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("mvi", ps.mvi, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("oligoelementos", ps.oligoelementos, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("l_cisteína", ps.l_cisteína, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("carnitina", ps.carnitina, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("heparina", ps.heparina, Constants.SOLUTION))
+        solutionRefValues.add(RefValue("abd", ps.abd, Constants.SOLUTION))
+        return solutionRefValues
+    }
+
+    // endregion
 }

@@ -3,9 +3,10 @@ package com.medicalrecord.data
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.ForeignKey
 import android.arch.persistence.room.ForeignKey.CASCADE
-import android.arch.persistence.room.ForeignKey.NO_ACTION
-import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.TypeConverter
+import com.google.gson.Gson
+import com.medicalrecord.calcprenatal.RefValue
 import java.io.Serializable
 
 // PATIENTS
@@ -18,7 +19,6 @@ data class Patient(@PrimaryKey(autoGenerate = true) var id: Long?,
                    var dx: String,
                    var weight: Double,
                    var date: String
-                        //@Ignore var calculations: List<CalculationData>
 
 ):Serializable {
     constructor():this(null,"","","",0, "", 0.0, "")
@@ -27,106 +27,29 @@ data class Patient(@PrimaryKey(autoGenerate = true) var id: Long?,
 // CALCULATIONS
 @Entity(tableName = "calculationsData",
         foreignKeys = [
-            ForeignKey(entity = Patient::class, parentColumns = ["id"], childColumns = ["patientId"], onDelete = CASCADE),
-            ForeignKey(entity = Solution::class, parentColumns = ["id"], childColumns = ["solutionId"], onDelete = NO_ACTION),
-            ForeignKey(entity = AdditionalInfo::class, parentColumns = ["id"], childColumns = ["additionalId"], onDelete = NO_ACTION),
-            ForeignKey(entity = DoctorReference::class, parentColumns = ["id"], childColumns = ["doctorId"], onDelete = NO_ACTION)
+            ForeignKey(entity = Patient::class, parentColumns = ["id"], childColumns = ["patientId"], onDelete = CASCADE)
         ])
 data class Calculation(@PrimaryKey(autoGenerate = true) var id: Long?,
                        var patientId: Long,
                        var date: String,
                        var weight: Double,
-                       var solutionId: Long?,
-                       var additionalId: Long?,
-                       var doctorId: Long?,
-                       @Ignore var solution: Solution?,
-                       @Ignore var docRef: DoctorReference?,
-                       @Ignore var addInfo: AdditionalInfo?
+                       var refValues: MutableList<RefValue>? = arrayListOf()
 
 
 ){
-    constructor():this(null,0,"",0.0, 0, 0, 0, null, null, null)
+    constructor():this(null,0,"",0.0, arrayListOf<RefValue>())
 }
 
-// SOLUTIONS
-@Entity(tableName = "solutionsData")
-data class Solution(@PrimaryKey(autoGenerate = true) var id: Long?,
-                    var líquidos_iv_tot: Double,
-                    var sol_fisiológica: Double,
-                    var trophamine_10: Double,
-                    var trophamine_8: Double,
-                    var intralipid_20: Double,
-                    var sg_50: Double,
-                    var sg_10: Double,
-                    var kcl_amp_10: Double,
-                    var kcl_amp_5: Double,
-                    var naclhip: Double,
-                    var fosfato_k: Double,
-                    var glucca: Double,
-                    var magnesio: Double,
-                    var mvi: Double,
-                    var oligoelementos: Double,
-                    var l_cisteína: Double,
-                    var carnitina: Double,
-                    var heparina: Double,
-                    var abd: Double
-){
-    constructor():this(null, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-            0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-            0.0, 0.0, 0.0, 0.0)
-}
+class Converters {
+    @TypeConverter
+    fun listToJson(value: MutableList<RefValue>?): String {
+        return Gson().toJson(value)
+    }
 
-// ADITIONAL DATA
-@Entity(tableName = "aditionalData")
-data class AdditionalInfo(@PrimaryKey(autoGenerate = true) var id: Long?,
-                          var líquidos_tot: Double,
-                          var calorías_tot: Double,
-                          var caljjml: Double,
-                          var caljjkgjjdia: Double,
-                          var infusión: Double,
-                          var nitrógeno: Double,
-                          var relcnpjntg: Double,
-                          var concentración: Double,
-                          var gkm: Double,
-                          var calprot: Double,
-                          var calgrasa: Double,
-                          var calchs50: Double,
-                          var calchs10: Double
-){
-    constructor():this(null, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-            0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+    @TypeConverter
+    fun jsonToList(value: String): MutableList<RefValue>? {
+        val objects = Gson().fromJson(value, Array<RefValue>::class.java) as Array<RefValue>
+        val list = objects.toMutableList()
+        return list
+    }
 }
-
-// DOCTOR REFERENCE
-@Entity(tableName = "doctorReferenceData")
-data class DoctorReference(@PrimaryKey(autoGenerate = true) var id: Long?,
-                           var líquidos: Double,
-                           var sol_fisiológica_: Double,
-                           var naclhip_: Double,
-                           var prot_10: Double,
-                           var prot_8: Double,
-                           var chs_50: Double,
-                           var chs_10: Double,
-                           var fosfato_k: Double,
-                           var kcl_amp_10_: Double,
-                           var kcl_amp_5_: Double,
-                           var lípidos: Double,
-                           var calcio_: Double,
-                           var magnesio_: Double,
-                           var mvi_: Double,
-                           var oligoelementos_: Double,
-                           var carnitina_: Double,
-                           var heparina_: Double
-){
-    constructor():this(null, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-            0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-            0.0, 0.0, 0.0, 0.0)
-}
-
-//
-data class CalculationValues(
-        var calculation: Calculation,
-        var solution: Solution
-        //var aditionalData: AditionalData,
-        //var doctorReferenceData: DoctorReferenceData
-)

@@ -10,6 +10,7 @@ class Constants {
     companion object {
 
         val BASE_VALUES = "base_values"
+        val SOLUTION = "solution"
 
         var baseValues = linkedMapOf(
                 "líquidos" to 150.0,
@@ -113,7 +114,7 @@ class Constants {
                 null
         }
 
-        var solutionValuesKeys = listOf(
+        /*var solutionValuesKeys = listOf(
             "líquidos_iv_tot",
             "sol_fisiológica",
             "trophamine_10",
@@ -132,6 +133,6 @@ class Constants {
             "l_cisteína",
             "carnitina",
             "heparina",
-            "abd")
+            "abd")*/
     }
 }

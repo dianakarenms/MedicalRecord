@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import com.medicalrecord.calcprenatal.R
 import com.medicalrecord.calcprenatal.RefValue
 import com.medicalrecord.utils.Constants
-import com.medicalrecord.utils.editable
 import kotlinx.android.synthetic.main.item_ref_value.view.*
 
 class ValuesAdapter(private val listener: (RefValue, Int) -> Unit): RecyclerView.Adapter<ValuesAdapter.ValueViewHolder>() {
@@ -30,8 +29,9 @@ class ValuesAdapter(private val listener: (RefValue, Int) -> Unit): RecyclerView
 
     class ValueViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: RefValue, position: Int, listener: (RefValue, Int) -> Unit) = with(itemView) {
-            itemRefValueNameTxt.text = Constants.displayNames[item.name]!!
-            itemRefValueValueTxt.text = item.value.editable
+            val name = Constants.displayNames[item.name]
+            itemRefValueNameTxt.text = name
+            itemRefValueValueTxt.text = "%.2f".format(item.value)
             setOnClickListener { listener(item, position) }
         }
     }

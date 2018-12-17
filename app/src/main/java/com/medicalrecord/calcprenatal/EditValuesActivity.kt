@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.EditText
 import com.medicalrecord.adapters.ValuesAdapter
+import com.medicalrecord.utils.Constants
 import com.medicalrecord.utils.Constants.Companion.BASE_VALUES
 import com.medicalrecord.utils.Constants.Companion.displayNames
 import com.medicalrecord.utils.Constants.Companion.getHashMap
@@ -47,7 +48,7 @@ class EditValuesActivity: AppCompatActivity() {
             prefsValues = it!!
             if (prefsValues != null) {
                 for((key, value) in prefsValues) {
-                    val refValue = RefValue(key, value.toString())
+                    val refValue = RefValue(key, value, Constants.SOLUTION)
                     valuesList.add(refValue)
                 }
                 adapter!!.setRefValues(valuesList)
@@ -62,13 +63,13 @@ class EditValuesActivity: AppCompatActivity() {
         alertDialog.setMessage(displayNames[refValue.name]?.toUpperCase())
 
         var etComments: EditText = view.findViewById(R.id.etComments)
-        etComments.text = refValue.value.editable
+        etComments.text = refValue.value.toString().editable
         etComments.requestFocus()
 
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK") { dialogInterface: DialogInterface, i: Int ->
             val newVal = etComments.text.toString()
             prefsValues[refValue.name] = newVal.toDouble()
-            valuesList[position].value = newVal
+            valuesList[position].value = newVal.toDouble()
             adapter?.notifyDataSetChanged()
         }
 
@@ -83,5 +84,6 @@ class EditValuesActivity: AppCompatActivity() {
 
 class RefValue(
         var name: String,
-        var value: String
+        var value: Double,
+        var type: String
 )

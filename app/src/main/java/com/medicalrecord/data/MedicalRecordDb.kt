@@ -3,16 +3,15 @@ package com.medicalrecord.data
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
+import android.arch.persistence.room.TypeConverters
 import android.content.Context
 
 @Database(entities =
 [
     Patient::class,
-    Calculation::class,
-    Solution::class,
-    AdditionalInfo::class,
-    DoctorReference::class
+    Calculation::class
 ], version = 1)
+@TypeConverters(Converters::class)
 abstract class MedicalRecordDataBase : RoomDatabase() {
 
     abstract fun patientDao(): PatientsDao

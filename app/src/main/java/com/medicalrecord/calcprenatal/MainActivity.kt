@@ -38,13 +38,5 @@ class MainActivity : AppCompatActivity() {
         if(Constants.getHashMap(Constants.BASE_VALUES, this@MainActivity) == null ) {
             Constants.saveHashMap(Constants.BASE_VALUES, Constants.baseValues, this@MainActivity)
         }
-
-        /*
-        viewModel?.all?.observe(this, object : Observer<List<Patient>> {
-            override fun onChanged(t: List<Patient>?) {
-                adapter.setPatients(t!!)
-            }
-        })
-        */
     }
 }

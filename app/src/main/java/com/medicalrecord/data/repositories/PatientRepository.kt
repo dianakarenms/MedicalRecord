@@ -27,7 +27,6 @@ class PatientRepository(application: Application) {
     }
 
     private class InsertAsyncTask internal constructor(private val mAsyncTaskDao: PatientsDao) : AsyncTask<Patient, Void, Void>() {
-
         override fun doInBackground(vararg params: Patient): Void? {
             mAsyncTaskDao.insert(params[0])
             return null
