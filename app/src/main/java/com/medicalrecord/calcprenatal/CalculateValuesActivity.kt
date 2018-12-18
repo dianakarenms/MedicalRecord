@@ -6,10 +6,9 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.EditText
-import com.medicalrecord.adapters.ValuesAdapter
+import com.medicalrecord.adapters.CalculationsAccordionAdapter
 import com.medicalrecord.data.Calculation
 import com.medicalrecord.data.Patient
 import com.medicalrecord.data.RefValue
@@ -21,7 +20,6 @@ import com.medicalrecord.utils.Constants.Companion.getHashMap
 import kotlinx.android.synthetic.main.activity_calculate_values.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 import java.util.*
 
 /**
@@ -30,7 +28,7 @@ import java.util.*
 class CalculateValuesActivity: AppCompatActivity() {
 
     private var viewModel: CalculationViewModel? = null
-    private var adapter: ValuesAdapter? = null
+    private var adapter: CalculationsAccordionAdapter? = null
 
     private lateinit var patient: Patient
     private lateinit var dv: LinkedHashMap<String, Double>
@@ -40,12 +38,11 @@ class CalculateValuesActivity: AppCompatActivity() {
         setContentView(R.layout.activity_calculate_values)
         setSupportActionBar(calculateValuesToolbar)
 
-        adapter = ValuesAdapter() {refValue, position ->
+        /*adapter = ValuesAdapter() {refValue, position ->
             toast("clicked ${refValue.name}")
-            //showEditValueDialog(refValues, position)
-        }
-        calculateValuesRecycler1.adapter = adapter
-        calculateValuesRecycler1.layoutManager = LinearLayoutManager(this@CalculateValuesActivity)
+        }*/
+        //calculateValuesRecycler1.adapter = adapter
+        //calculateValuesRecycler1.layoutManager = LinearLayoutManager(this@CalculateValuesActivity)
 
         calculateValuesWeightTxt.onClick { showEditWeightDialog() }
 
@@ -58,7 +55,6 @@ class CalculateValuesActivity: AppCompatActivity() {
             // La magia comienza
             val weight = patient.weight
             val calculation = Calculation(null, patient.id!!,  Calendar.getInstance().time.formatted, weight)
-
 
             val carbs = maxOf(dv["chs_50"]!!, dv["chs_10"]!!)
             val liquids = maxOf(dv["naclhip_"]!!, dv["sol_fisiológica_"]!!)
@@ -82,34 +78,23 @@ class CalculateValuesActivity: AppCompatActivity() {
         }
 
         viewModel = ViewModelProviders.of(this, CustomViewModelFactory(this.application, patient.id!!)).get(CalculationViewModel::class.java)
-
         viewModel?.getCalculationsByPatientId(patient.id!!)?.observe(this@CalculateValuesActivity, Observer<List<Calculation>> { calculations ->
                 if (calculations?.isNotEmpty()!!) {
                     hideEmptyStateView()
-                    calculations.last().refValues?.let { adapter!!.setRefValues(it) }
+                    calculations.last().refValues?.let {
+                        adapter = CalculationsAccordionAdapter(it)
+                        calculateValuesCalculationsAccordion.adapter = adapter
+                        calculateValuesCalculationsAccordion.updatePosition(3)
+                    }
                 } else {
                     showEmptyStateView()
                 }
             }
         )
-
         calculateValuesWeightTxt.text = "${patient.weight}"
     }
-
-    private fun showEmptyStateView() {
-        calculateValuesWrapper.visibility = View.GONE
-        calculateValuesCalculationsRecycler.visibility = View.GONE
-        calculateValuesEmptyTxt.visibility = View.VISIBLE
-    }
-
-    private fun hideEmptyStateView() {
-        calculateValuesWrapper.visibility = View.VISIBLE
-        calculateValuesCalculationsRecycler.visibility = View.VISIBLE
-        calculateValuesEmptyTxt.visibility = View.GONE
-    }
-
     // region Calculations
-    fun solutions(): MutableList<RefValue> {
+    private fun solutions(): MutableList<RefValue> {
         val weight = patient.weight
         val proteins = maxOf(dv["prot_10"]!!, dv["prot_8"]!!)
         var ps = Solution()
@@ -162,6 +147,26 @@ class CalculateValuesActivity: AppCompatActivity() {
         return solutionRefValues
     }
     // endregion
+
+    private fun setupExpandableList() {
+        // Inflate Headers and contentView
+        val sections = mutableListOf<String>()
+        sections.add("Solución:")
+        sections.add("Datos Adicionales:")
+        sections.add("Referencia por Médico:")
+    }
+
+    private fun showEmptyStateView() {
+        calculateValuesCalculationsAccordion.visibility = View.GONE
+        calculateValuesCalculationsRecycler.visibility = View.GONE
+        calculateValuesEmptyTxt.visibility = View.VISIBLE
+    }
+
+    private fun hideEmptyStateView() {
+        calculateValuesCalculationsAccordion.visibility = View.VISIBLE
+        calculateValuesCalculationsRecycler.visibility = View.VISIBLE
+        calculateValuesEmptyTxt.visibility = View.GONE
+    }
 
     private fun showEditWeightDialog() {
         val view = layoutInflater.inflate(R.layout.dialog_value_field, null)
