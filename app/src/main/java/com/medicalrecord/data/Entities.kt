@@ -6,7 +6,6 @@ import android.arch.persistence.room.ForeignKey.CASCADE
 import android.arch.persistence.room.PrimaryKey
 import android.arch.persistence.room.TypeConverter
 import com.google.gson.Gson
-import com.medicalrecord.calcprenatal.RefValue
 import java.io.Serializable
 
 // PATIENTS

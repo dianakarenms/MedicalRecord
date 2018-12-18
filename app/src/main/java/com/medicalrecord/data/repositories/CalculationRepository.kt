@@ -2,10 +2,10 @@ package com.medicalrecord.data.repositories
 
 import android.app.Application
 import android.arch.lifecycle.LiveData
-import android.os.AsyncTask
 import android.util.Log
-import com.medicalrecord.calcprenatal.RefValue
-import com.medicalrecord.data.*
+import com.medicalrecord.data.Calculation
+import com.medicalrecord.data.CalculationsDao
+import com.medicalrecord.data.MedicalRecordDataBase
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
@@ -25,7 +25,6 @@ class CalculationRepository(application: Application) {
     }
 
     fun getCalculationsByPatientId(id: Long): LiveData<List<Calculation>> {
-        //CalculationsAsyncTask(calculationsDao).execute(id)
         return calculationsDao.getCalculationsByPatientId(id)
     }
 

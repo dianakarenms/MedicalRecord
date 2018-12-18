@@ -2,20 +2,22 @@ package com.medicalrecord.calcprenatal
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.DialogInterface
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.EditText
 import com.medicalrecord.adapters.ValuesAdapter
 import com.medicalrecord.data.Calculation
 import com.medicalrecord.data.Patient
+import com.medicalrecord.data.RefValue
 import com.medicalrecord.data.Solution
 import com.medicalrecord.data.viewmodels.CalculationViewModel
-import com.medicalrecord.utils.Constants
+import com.medicalrecord.utils.*
 import com.medicalrecord.utils.Constants.Companion.BASE_VALUES
 import com.medicalrecord.utils.Constants.Companion.getHashMap
-import com.medicalrecord.utils.CustomViewModelFactory
-import com.medicalrecord.utils.formatted
 import kotlinx.android.synthetic.main.activity_calculate_values.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
@@ -44,6 +46,8 @@ class CalculateValuesActivity: AppCompatActivity() {
         }
         calculateValuesRecycler1.adapter = adapter
         calculateValuesRecycler1.layoutManager = LinearLayoutManager(this@CalculateValuesActivity)
+
+        calculateValuesWeightTxt.onClick { showEditWeightDialog() }
 
         patient = intent.getSerializableExtra("patient") as Patient
         dv = getHashMap( BASE_VALUES, this@CalculateValuesActivity )!!
@@ -89,7 +93,7 @@ class CalculateValuesActivity: AppCompatActivity() {
             }
         )
 
-        calculateValuesWeightTxt.text = "${patient.weight} Kg"
+        calculateValuesWeightTxt.text = "${patient.weight}"
     }
 
     private fun showEmptyStateView() {
@@ -157,6 +161,32 @@ class CalculateValuesActivity: AppCompatActivity() {
         solutionRefValues.add(RefValue("abd", ps.abd, Constants.SOLUTION))
         return solutionRefValues
     }
-
     // endregion
+
+    private fun showEditWeightDialog() {
+        val view = layoutInflater.inflate(R.layout.dialog_value_field, null)
+
+        var etComments: EditText = view.findViewById(R.id.etComments)
+        etComments.text = patient.weight.toString().editable
+        etComments.showKeyboard()
+
+        var alertDialog = AlertDialog.Builder(this@CalculateValuesActivity).create()
+        alertDialog.setCancelable(true)
+        alertDialog.setMessage("Peso Actual")
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK") { dialogInterface: DialogInterface, i: Int ->
+            val newVal = etComments.text.toString().toDouble().decimalsFormat(1)
+            calculateValuesWeightTxt.text = newVal
+            patient.weight = newVal.toDouble()
+            etComments.hideKeyboard()
+            alertDialog.dismiss()
+        }
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel") { dialogInterface: DialogInterface, i: Int ->
+            etComments.hideKeyboard()
+            alertDialog.dismiss()
+        }
+
+        alertDialog.setView(view)
+        alertDialog.show()
+    }
 }

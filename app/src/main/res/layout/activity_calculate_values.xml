@@ -82,11 +82,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        tools:text="3.4"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toStartOf="@+id/calculateValuesWeightUnitTxt"
+        app:layout_constraintTop_toBottomOf="@+id/calculateValuesCalculateBtn"
+        android:clickable="true"/>
+
+    <TextView
+        android:id="@+id/calculateValuesWeightUnitTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        tools:text="3.4 Kg"
+        android:text="Kg"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calculateValuesCalculateBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/calculateValuesCalculateBtn"
+        android:clickable="true"/>
 
     <LinearLayout
         android:id="@+id/calculateValuesWrapper"

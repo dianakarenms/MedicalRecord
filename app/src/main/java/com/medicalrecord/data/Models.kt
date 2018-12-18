@@ -1,5 +1,11 @@
 package com.medicalrecord.data
 
+class RefValue(
+        var name: String,
+        var value: Double,
+        var type: String
+)
+
 // SOLUTIONS
 class Solution(var id: Long?, // lista de valores de referencia con RefVal(name:String, value:Double)
                var líquidos_iv_tot: Double,
