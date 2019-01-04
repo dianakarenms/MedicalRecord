@@ -57,8 +57,6 @@ class OtherInfoActivity : AppCompatActivity() {
                 patient.dx = dx.toString()
                 patient.date = "vacío"
                 patient.weight = intent.getStringExtra("weight").toDouble()
-                //patientData.date = Calendar.getInstance().time.formatted
-
                 mPatientVM?.insert(patient)
                 backToHome()
             }

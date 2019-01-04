@@ -2,7 +2,6 @@ package com.medicalrecord.data
 
 import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
-import com.medicalrecord.calcprenatal.RefValue
 
 @Dao
 interface PatientsDao {
@@ -15,17 +14,20 @@ interface PatientsDao {
 
     @Query("DELETE from patientsData")
     fun deleteAll()
+
+
 }
 
 @Dao
 abstract class CalculationsDao {
-
+    // Calculations
     @Transaction
     open fun insertCalculationWithValues(calculation: Calculation) {
         insertCalculation(calculation)
+        updateWeight(calculation.patientId, calculation.weight)
+        updateCalculationDate(calculation.patientId, calculation.date)
     }
 
-    /** Calculations **/
     @Query("SELECT * from calculationsData")
     abstract fun getAll(): LiveData<List<Calculation>>
 
@@ -37,4 +39,11 @@ abstract class CalculationsDao {
 
     @Query("SELECT * from calculationsData WHERE patientId = :patientId")
     abstract fun getCalculationsByPatientId(patientId: Long): LiveData<List<Calculation>>
+
+    // PatientData
+    @Query("UPDATE patientsData SET weight = :weight WHERE id = :id")
+    abstract fun updateWeight(id: Long, weight: Double)
+
+    @Query("UPDATE patientsData SET date = :date WHERE id = :id")
+    abstract fun updateCalculationDate(id: Long, date: String)
 }
