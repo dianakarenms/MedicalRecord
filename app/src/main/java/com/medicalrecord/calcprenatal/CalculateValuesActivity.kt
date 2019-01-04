@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.EditText
-import com.medicalrecord.adapters.ValuesAdapter
+import com.medicalrecord.adapters.ExpandableValuesAdapter
 import com.medicalrecord.data.Calculation
 import com.medicalrecord.data.Patient
 import com.medicalrecord.data.RefValue
@@ -30,7 +30,8 @@ import java.util.*
 class CalculateValuesActivity: AppCompatActivity() {
 
     private var viewModel: CalculationViewModel? = null
-    private var adapter: ValuesAdapter? = null
+    private var adapter: ExpandableValuesAdapter? = null
+    private val valuesTypeList: List<String> = listOf(Constants.SOLUTION, Constants.ADDITIONAL_INFO, Constants.DOCTOR_REFERENCE)
 
     private lateinit var patient: Patient
     private lateinit var dv: LinkedHashMap<String, Double>
@@ -40,12 +41,12 @@ class CalculateValuesActivity: AppCompatActivity() {
         setContentView(R.layout.activity_calculate_values)
         setSupportActionBar(calculateValuesToolbar)
 
-        adapter = ValuesAdapter() {refValue, position ->
+        adapter = ExpandableValuesAdapter { refValue, position ->
             toast("clicked ${refValue.name}")
             //showEditValueDialog(refValues, position)
         }
-        calculateValuesRecycler1.adapter = adapter
-        calculateValuesRecycler1.layoutManager = LinearLayoutManager(this@CalculateValuesActivity)
+        calculateValuesItemRecycler.adapter = adapter
+        calculateValuesItemRecycler.layoutManager = LinearLayoutManager(this@CalculateValuesActivity)
 
         calculateValuesWeightTxt.onClick { showEditWeightDialog() }
 
@@ -86,7 +87,7 @@ class CalculateValuesActivity: AppCompatActivity() {
         viewModel?.getCalculationsByPatientId(patient.id!!)?.observe(this@CalculateValuesActivity, Observer<List<Calculation>> { calculations ->
                 if (calculations?.isNotEmpty()!!) {
                     hideEmptyStateView()
-                    calculations.last().refValues?.let { adapter!!.setRefValues(it) }
+                    calculations.last().refValues?.let { adapter!!.setUserListAndType(it, valuesTypeList) }
                 } else {
                     showEmptyStateView()
                 }
@@ -97,14 +98,14 @@ class CalculateValuesActivity: AppCompatActivity() {
     }
 
     private fun showEmptyStateView() {
-        calculateValuesWrapper.visibility = View.GONE
-        calculateValuesCalculationsRecycler.visibility = View.GONE
+        calculateValuesItemRecycler.visibility = View.GONE
+        calculateValuesListRecycler.visibility = View.GONE
         calculateValuesEmptyTxt.visibility = View.VISIBLE
     }
 
     private fun hideEmptyStateView() {
-        calculateValuesWrapper.visibility = View.VISIBLE
-        calculateValuesCalculationsRecycler.visibility = View.VISIBLE
+        calculateValuesItemRecycler.visibility = View.VISIBLE
+        calculateValuesListRecycler.visibility = View.VISIBLE
         calculateValuesEmptyTxt.visibility = View.GONE
     }
 

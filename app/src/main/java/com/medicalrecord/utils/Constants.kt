@@ -10,7 +10,9 @@ class Constants {
     companion object {
 
         val BASE_VALUES = "base_values"
-        val SOLUTION = "solution"
+        val SOLUTION = "Solution"
+        val ADDITIONAL_INFO = "AdditionalInfo"
+        val DOCTOR_REFERENCE = "DoctorReference"
 
         var baseValues = linkedMapOf(
                 "líquidos" to 150.0,

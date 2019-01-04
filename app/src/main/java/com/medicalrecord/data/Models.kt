@@ -1,10 +1,8 @@
 package com.medicalrecord.data
 
-class RefValue(
-        var name: String,
-        var value: Double,
-        var type: String
-)
+class RefValue(var name: String, var value: Double, var type: String)
+
+class ViewType(val dataIndex: Int, val type: Int)
 
 // SOLUTIONS
 class Solution(var id: Long?, // lista de valores de referencia con RefVal(name:String, value:Double)
