@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Calculadora Prenatal</string>
+    <string name="app_name">NutriciónPrenatal</string>
     <string name="main_patient">Paciente</string>
     <string name="main_add_patient">Añadir Paciente</string>
 

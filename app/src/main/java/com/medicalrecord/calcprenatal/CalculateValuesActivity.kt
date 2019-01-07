@@ -87,7 +87,7 @@ class CalculateValuesActivity: AppCompatActivity() {
         viewModel?.getCalculationsByPatientId(patient.id!!)?.observe(this@CalculateValuesActivity, Observer<List<Calculation>> { calculations ->
                 if (calculations?.isNotEmpty()!!) {
                     hideEmptyStateView()
-                    calculations.last().refValues?.let { adapter!!.setUserListAndType(it, valuesTypeList) }
+                    calculations.last().refValues?.let { adapter!!.setValueListAndType(it, valuesTypeList) }
                 } else {
                     showEmptyStateView()
                 }
