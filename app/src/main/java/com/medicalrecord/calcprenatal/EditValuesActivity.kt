@@ -33,7 +33,7 @@ class EditValuesActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_values)
 
-        adapter = ValuesAdapter() {refValue, position ->
+        adapter = ValuesAdapter {refValue, position ->
             showEditValueDialog(refValue, position)
         }
         editValuesRecycler.adapter = adapter
@@ -51,7 +51,7 @@ class EditValuesActivity: AppCompatActivity() {
             prefsValues = it!!
             if (prefsValues != null) {
                 for((key, value) in prefsValues) {
-                    val refValue = RefValue(key, value, Constants.SOLUTION)
+                    val refValue = RefValue(key, value, Constants.DOCTOR_REFERENCE)
                     valuesList.add(refValue)
                 }
                 adapter!!.setRefValues(valuesList)
