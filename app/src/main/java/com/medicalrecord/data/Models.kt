@@ -18,6 +18,8 @@ class Solution(var id: Long?, // lista de valores de referencia con RefVal(name:
                var naclhip: Double,
                var fosfato_k: Double,
                var glucca: Double,
+               var gluccaMl: Double,
+               var magnesioMl: Double,
                var magnesio: Double,
                var mvi: Double,
                var oligoelementos: Double,
@@ -27,7 +29,7 @@ class Solution(var id: Long?, // lista de valores de referencia con RefVal(name:
                var abd: Double
 ){
     constructor():this(null, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-            0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+            0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
             0.0, 0.0, 0.0, 0.0)
 }
 

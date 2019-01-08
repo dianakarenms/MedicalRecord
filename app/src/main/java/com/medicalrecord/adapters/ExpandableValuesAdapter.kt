@@ -63,10 +63,8 @@ class ExpandableValuesAdapter(private val listener: (RefValue, Int) -> Unit): Re
         }
         if (isExpanded(position)) {
             headerViewHolder.sectionButton.text = "Colapsar"
-            //headerViewHolder.sectionTitle.setCompoundDrawablesWithIntrinsicBounds(null, null, headerViewHolder.arrowUp, null)
         } else {
             headerViewHolder.sectionButton.text = "Expandir"
-            //headerViewHolder.sectionTitle.setCompoundDrawablesWithIntrinsicBounds(null, null, headerViewHolder.arrowDown, null)
         }
     }
 
@@ -119,8 +117,8 @@ class ExpandableValuesAdapter(private val listener: (RefValue, Int) -> Unit): Re
 
     private fun getChildCount(type: String): Int {
         return when (type) {
-            Constants.SOLUTION -> 19
-            Constants.ADDITIONAL_INFO -> 0
+            Constants.SOLUTION -> 21
+            Constants.ADDITIONAL_INFO -> 13
             Constants.DOCTOR_REFERENCE -> 0
             else -> 0
         }
