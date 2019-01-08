@@ -77,7 +77,7 @@ class ExpandableValuesAdapter(private val listener: (RefValue, Int) -> Unit): Re
         fun bind(item: RefValue, position: Int, listener: (RefValue, Int) -> Unit) = with(itemView) {
             val name = Constants.displayNames[item.name]
             itemRefValueNameTxt.text = name
-            itemRefValueValueTxt.text = item.value.decimalsFormat(2)
+            itemRefValueValueTxt.text = "${item.value.decimalsFormat(2)} ${Constants.units[item.name]}"
             //setOnClickListener { listener(item, position) }
         }
     }
