@@ -177,6 +177,18 @@ class CalculateValuesActivity: AppCompatActivity() {
         refValues.add(RefValue("calchs10", pad.calchs10, Constants.ADDITIONAL_INFO))
         // endregion
 
+        // region Reference per Doctor
+        getHashMap(BASE_VALUES, this@CalculateValuesActivity).let {
+            it ->
+            if (it != null) {
+                for((key, value) in it) {
+                    val refValue = RefValue(key, value, Constants.DOCTOR_REFERENCE)
+                    refValues.add(refValue)
+                }
+            }
+        }
+        // endregion
+
         return refValues
     }
 

@@ -119,7 +119,7 @@ class ExpandableValuesAdapter(private val listener: (RefValue, Int) -> Unit): Re
         return when (type) {
             Constants.SOLUTION -> 21
             Constants.ADDITIONAL_INFO -> 13
-            Constants.DOCTOR_REFERENCE -> 0
+            Constants.DOCTOR_REFERENCE -> 17
             else -> 0
         }
     }
