@@ -45,7 +45,7 @@ class CalculateValuesActivity: AppCompatActivity() {
         calculateValuesItemRecycler.adapter = adapter
         calculateValuesItemRecycler.layoutManager = LinearLayoutManager(this@CalculateValuesActivity)
 
-        calculateValuesWeightTxt.onClick { showEditWeightDialog() }
+        calculateValuesWeightWrapper.onClick { showEditWeightDialog() }
 
         patient = intent.getSerializableExtra("patient") as Patient
         dv = getHashMap( BASE_VALUES, this@CalculateValuesActivity )!!
@@ -188,7 +188,7 @@ class CalculateValuesActivity: AppCompatActivity() {
         etComments.showKeyboard()
 
         var alertDialog = AlertDialog.Builder(this@CalculateValuesActivity).create()
-        alertDialog.setCancelable(true)
+        alertDialog.setCancelable(false)
         alertDialog.setMessage("Peso Actual")
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK") { dialogInterface: DialogInterface, i: Int ->
             val newVal = etComments.text.toString().toDouble().decimalsFormat(1)

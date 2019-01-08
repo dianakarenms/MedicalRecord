@@ -67,7 +67,7 @@ class EditValuesActivity: AppCompatActivity() {
         etComments.showKeyboard()
 
         var alertDialog = AlertDialog.Builder(this@EditValuesActivity).create()
-        alertDialog.setCancelable(true)
+        alertDialog.setCancelable(false)
         alertDialog.setMessage(displayNames[refValue.name]?.toUpperCase())
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK") { dialogInterface: DialogInterface, i: Int ->
             val newVal = etComments.text.toString()

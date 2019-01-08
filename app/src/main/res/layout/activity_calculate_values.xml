@@ -72,34 +72,38 @@
         android:id="@+id/calculateValuesWeightLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:text="@string/calculate_values_actual_weight"
-        app:layout_constraintBottom_toBottomOf="@+id/calculateValuesWeightTxt"
-        app:layout_constraintEnd_toStartOf="@+id/calculateValuesWeightTxt" />
-
-    <TextView
-        android:id="@+id/calculateValuesWeightTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        tools:text="3.4"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        app:layout_constraintEnd_toStartOf="@+id/calculateValuesWeightUnitTxt"
         app:layout_constraintTop_toBottomOf="@+id/calculateValuesCalculateBtn"
-        android:clickable="true"/>
+        app:layout_constraintEnd_toStartOf="@+id/calculateValuesWeightWrapper"
+        app:layout_constraintBottom_toBottomOf="@+id/calculateValuesWeightWrapper"/>
 
-    <TextView
-        android:id="@+id/calculateValuesWeightUnitTxt"
+    <LinearLayout
+        android:id="@+id/calculateValuesWeightWrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Kg"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/calculateValuesCalculateBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calculateValuesCalculateBtn"
-        android:clickable="true"/>
+        android:clickable="true">
+        <TextView
+            android:id="@+id/calculateValuesWeightTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            tools:text="3.4"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:id="@+id/calculateValuesWeightUnitTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="Kg"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/calculateValuesItemRecycler"
@@ -108,7 +112,7 @@
         app:layout_constraintBottom_toTopOf="@+id/calculateValuesListRecycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calculateValuesWeightLabel"
+        app:layout_constraintTop_toBottomOf="@+id/calculateValuesWeightWrapper"
         tools:listitem="@layout/item_ref_value"
         android:visibility="visible" />
 
