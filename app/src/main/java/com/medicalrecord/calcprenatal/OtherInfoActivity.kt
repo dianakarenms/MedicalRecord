@@ -53,7 +53,7 @@ class OtherInfoActivity : AppCompatActivity() {
                 patient.name = intent.getStringExtra("name")
                 patient.record = record.toString()
                 patient.bed = bed.toString()
-                patient.gestation = gestation.toString().toInt()
+                patient.weeks = gestation.toString().toInt()
                 patient.dx = dx.toString()
                 patient.date = "vacío"
                 patient.weight = intent.getStringExtra("weight").toDouble()

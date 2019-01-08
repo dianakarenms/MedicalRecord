@@ -14,7 +14,7 @@ data class Patient(@PrimaryKey(autoGenerate = true) var id: Long?,
                    var name: String,
                    var record: String,
                    var bed: String,
-                   var gestation: Int,
+                   var weeks: Int,
                    var dx: String,
                    var weight: Double,
                    var date: String

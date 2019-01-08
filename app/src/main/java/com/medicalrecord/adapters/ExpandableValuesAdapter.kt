@@ -14,7 +14,7 @@ import com.medicalrecord.utils.decimalsFormat
 import kotlinx.android.synthetic.main.item_ref_value.view.*
 
 
-class ExpandableValuesAdapter(private val listener: (RefValue, Int) -> Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>(), SectionHeaderViewHolder.HeaderViewHolderCallback {
+class ExpandableValuesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), SectionHeaderViewHolder.HeaderViewHolderCallback {
 
     private val VALUE_TYPE = 1
     private val HEADER_TYPE = 2
@@ -70,15 +70,14 @@ class ExpandableValuesAdapter(private val listener: (RefValue, Int) -> Unit): Re
 
     private fun bindValueViewHolder(holder: RecyclerView.ViewHolder, viewType: ViewType) {
         val dataIndex = viewType.dataIndex
-        (holder as ValueViewHolder).bind(valuesList!![dataIndex], dataIndex, listener)
+        (holder as ValueViewHolder).bind(valuesList!![dataIndex])
     }
 
     class ValueViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: RefValue, position: Int, listener: (RefValue, Int) -> Unit) = with(itemView) {
+        fun bind(item: RefValue) = with(itemView) {
             val name = Constants.displayNames[item.name]
             itemRefValueNameTxt.text = name
             itemRefValueValueTxt.text = "${item.value.decimalsFormat(2)} ${Constants.units[item.name]}"
-            //setOnClickListener { listener(item, position) }
         }
     }
 

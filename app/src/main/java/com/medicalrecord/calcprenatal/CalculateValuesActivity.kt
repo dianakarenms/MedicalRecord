@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.EditText
+import com.medicalrecord.adapters.CalculationsAdapter
 import com.medicalrecord.adapters.ExpandableValuesAdapter
 import com.medicalrecord.data.*
 import com.medicalrecord.data.viewmodels.CalculationViewModel
@@ -18,6 +19,7 @@ import com.medicalrecord.utils.Constants.Companion.getHashMap
 import kotlinx.android.synthetic.main.activity_calculate_values.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import java.util.*
 import kotlin.math.round
 
@@ -27,7 +29,8 @@ import kotlin.math.round
 class CalculateValuesActivity: AppCompatActivity() {
 
     private var viewModel: CalculationViewModel? = null
-    private var adapter: ExpandableValuesAdapter? = null
+    private var valuesAdapter: ExpandableValuesAdapter? = null
+    private var calculationsAdapter: CalculationsAdapter? = null
     private val valuesTypeList: List<String> = listOf(Constants.SOLUTION, Constants.ADDITIONAL_INFO, Constants.DOCTOR_REFERENCE)
 
     private lateinit var patient: Patient
@@ -36,43 +39,51 @@ class CalculateValuesActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calculate_values)
-        setSupportActionBar(calculateValuesToolbar)
 
-        adapter = ExpandableValuesAdapter { refValue, position ->
-            //toast("clicked ${refValue.name}")
-            //showEditValueDialog(refValues, position)
-        }
-        calculateValuesItemRecycler.adapter = adapter
-        calculateValuesItemRecycler.layoutManager = LinearLayoutManager(this@CalculateValuesActivity)
-
-        calculateValuesWeightWrapper.onClick { showEditWeightDialog() }
-
+        // intent
         patient = intent.getSerializableExtra("patient") as Patient
         dv = getHashMap( BASE_VALUES, this@CalculateValuesActivity )!!
 
+        // toolbar
+        setSupportActionBar(calculateValuesToolbar)
         toolbarCalculateValuesEditBtn.onClick { startActivity<EditValuesActivity>() }
+
+        // values recycler
+        valuesAdapter = ExpandableValuesAdapter()
+        calculateValuesItemRecycler.adapter = valuesAdapter
+        calculateValuesItemRecycler.layoutManager = LinearLayoutManager(this@CalculateValuesActivity)
+
+        // calculations recycler
+        calculationsAdapter = CalculationsAdapter {calculation, position ->
+            toast(calculation.weight.toString())
+        }
+        calculateValuesListRecycler.adapter = calculationsAdapter
+        //calculateValuesListRecycler.layoutManager = LinearLayoutManager(this@CalculateValuesActivity)
+
+        // onClickListeners
+        calculateValuesWeightWrapper.onClick { showEditWeightDialog() }
         calculateValuesCreateBtn.onClick { startActivity<AditionalInstrActivity>() }
         calculateValuesCalculateBtn.onClick {
-            // La magia comienza
             val weight = patient.weight
             val calculation = Calculation(null, patient.id!!,  Calendar.getInstance().time.formatted, weight)
-
-            calculation.refValues?.addAll(solutions())
+            calculation.refValues?.addAll(calculations())
             viewModel?.insert(calculation)
         }
 
+        // viewModel
         viewModel = ViewModelProviders.of(this, CustomViewModelFactory(this.application, patient.id!!)).get(CalculationViewModel::class.java)
-
         viewModel?.getCalculationsByPatientId(patient.id!!)?.observe(this@CalculateValuesActivity, Observer<List<Calculation>> { calculations ->
                 if (calculations?.isNotEmpty()!!) {
                     hideEmptyStateView()
-                    calculations.last().refValues?.let { adapter!!.setValueListAndType(it, valuesTypeList) }
+                    calculations.last().refValues?.let { valuesAdapter!!.setValueListAndType(it, valuesTypeList) }
+                    calculationsAdapter!!.setCalculations(calculations)
                 } else {
                     showEmptyStateView()
                 }
             }
         )
 
+        // views
         calculateValuesWeightTxt.text = "${patient.weight}"
     }
 
@@ -88,10 +99,11 @@ class CalculateValuesActivity: AppCompatActivity() {
         calculateValuesEmptyTxt.visibility = View.GONE
     }
 
-    private fun solutions(): MutableList<RefValue> {
-        // region Solutions
+    private fun calculations(): MutableList<RefValue> {
         val weight = patient.weight
         val proteins = maxOf(dv["prot_10"]!!, dv["prot_8"]!!)
+
+        // region Solutions
         var ps = Solution()
         ps.líquidos_iv_tot = round(100 * (weight * dv["líquidos"]!!)) / 100
         ps.trophamine_10 = round(100 * (weight * dv["prot_10"]!! / 0.1)) / 100
@@ -112,7 +124,7 @@ class CalculateValuesActivity: AppCompatActivity() {
         ps.oligoelementos = round(100 * (dv["oligoelementos_"]!! * weight)) / 100
         ps.l_cisteína = round(100 * (proteins * weight * 100 / 2.5)) / 100
         ps.carnitina = round(100 * (dv["carnitina_"]!! * weight)) / 100
-        if (patient.gestation >= 32) {
+        if (patient.weeks >= 32) {
             ps.heparina = 0.0
         } else {
             ps.heparina = round(100 * (dv["heparina_"]!! * ps.intralipid_20)) / 100
