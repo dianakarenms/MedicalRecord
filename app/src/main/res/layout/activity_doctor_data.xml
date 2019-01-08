@@ -97,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="56dp"
-        android:background="@color/positiveBtn"
+        android:background="@drawable/shape_rounded_square_positive"
         android:padding="8dp"
         android:text="@string/doctor_pick_logo"
         android:textAllCaps="false"
@@ -111,7 +111,7 @@
         android:layout_height="100dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/app_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/doctorDataNameEdit" />
 

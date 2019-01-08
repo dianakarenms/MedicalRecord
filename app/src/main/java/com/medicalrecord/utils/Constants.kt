@@ -10,7 +10,9 @@ class Constants {
     companion object {
 
         val BASE_VALUES = "base_values"
-        val SOLUTION = "solution"
+        val SOLUTION = "Solución"
+        val ADDITIONAL_INFO = "Datos Adicionales"
+        val DOCTOR_REFERENCE = "Referencia por Médico"
 
         var baseValues = linkedMapOf(
                 "líquidos" to 150.0,
@@ -79,8 +81,10 @@ class Constants {
                 "kcl_amp_5" to "cloruro de Potasio ámpula de 5 ml",
                 "naclhip" to "concentrado de sódio",
                 "fosfato_k" to "fosfáto de potasio",
-                "glucca" to "gluconato de calcio",
-                "magnesio" to "magnesio",
+                "glucca" to "gluconato de calcio/meq",
+                "magnesio" to "magnesio/meq",
+                "gluccaMl" to "gluconato de calcio/ml",
+                "magnesioMl" to "magnesio/ml",
                 "mvi" to "multivitamínico intravenoso",
                 "oligoelementos" to "oligoelementos",
                 "l_cisteína" to "l-cisteína",
