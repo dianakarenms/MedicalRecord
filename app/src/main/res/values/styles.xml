@@ -34,7 +34,7 @@
 
     <style name="DefaulButtonViewStyle" parent="android:Widget.TextView">
         <item name="android:minHeight">0dp</item>
-        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Medium</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Small</item>
     </style>
 
     <style name="DefaultToolbarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
