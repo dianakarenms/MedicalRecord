@@ -55,7 +55,7 @@ class CalculateValuesActivity: AppCompatActivity() {
 
         // calculations recycler
         calculationsAdapter = CalculationsAdapter {calculation ->
-            toast(calculation.weight.toString())
+            valuesAdapter!!.setValueListAndType(calculation.refValues, valuesTypeList)
         }
         calculateValuesListRecycler.adapter = calculationsAdapter
 
