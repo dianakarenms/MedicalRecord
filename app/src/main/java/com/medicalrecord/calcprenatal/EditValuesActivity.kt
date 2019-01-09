@@ -78,7 +78,7 @@ class EditValuesActivity: AppCompatActivity() {
             alertDialog.dismiss()
         }
 
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel") { dialogInterface: DialogInterface, i: Int ->
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancelar") { dialogInterface: DialogInterface, i: Int ->
             etComments.hideKeyboard()
             alertDialog.dismiss()
         }

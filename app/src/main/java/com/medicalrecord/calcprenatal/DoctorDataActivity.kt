@@ -1,16 +1,23 @@
 package com.medicalrecord.calcprenatal
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import com.medicalrecord.utils.PictureTools
+import android.widget.EditText
+import com.medicalrecord.data.MedicalRecordDataBase
+import com.medicalrecord.data.OnDeleteCompleted
+import com.medicalrecord.data.Patient
+import com.medicalrecord.utils.*
 import com.medicalrecord.utils.PictureTools.Companion.REQUEST_READ_EXTERNAL_STORAGE
-import com.medicalrecord.utils.RealPathUtil
-import com.medicalrecord.utils.editable
+import kotlinx.android.synthetic.main.activity_calculate_values.*
 import kotlinx.android.synthetic.main.activity_doctor_data.*
+import org.jetbrains.anko.longToast
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -36,11 +43,7 @@ class DoctorDataActivity: AppCompatActivity() {
         prefs = this.getSharedPreferences(PREFS_FILENAME, 0)
         editor = prefs!!.edit()
 
-        val doctorName = prefs!!.getString(DOCTOR_NAME, "")
-        doctorDataNameEdit.text = doctorName.editable
-
-        pathImage = prefs!!.getString(DOCTOR_LOGO, "")
-        setDoctorBitmapFromUri(pathImage!!)
+        initViews()
 
         doctorDataEditBtn.onClick { startActivity<EditValuesActivity>() }
         doctorDataPickLogoBtn.onClick {
@@ -55,6 +58,17 @@ class DoctorDataActivity: AppCompatActivity() {
             toast("Guardado exitoso")
             finish()
         }
+        doctorDataDeleteBtn.onClick {
+            showDeleteRegistersDialog()
+        }
+    }
+
+    private fun initViews() {
+        val doctorName = prefs!!.getString(DOCTOR_NAME, "")
+        doctorDataNameEdit.text = doctorName.editable
+
+        pathImage = prefs!!.getString(DOCTOR_LOGO, "")
+        setDoctorBitmapFromUri(pathImage!!)
     }
 
 
@@ -77,6 +91,8 @@ class DoctorDataActivity: AppCompatActivity() {
         if (pathImage.isNotEmpty()) {
             val bitmap = PictureTools.decodeSampledBitmapFromUri(pathImage, 200, 200)
             doctorDataImg.setImageBitmap(bitmap)
+        } else {
+            doctorDataImg.setImageResource(R.drawable.app_icon)
         }
     }
 
@@ -97,5 +113,28 @@ class DoctorDataActivity: AppCompatActivity() {
             }
         }
         return path
+    }
+
+    private fun showDeleteRegistersDialog() {
+        var alertDialog = AlertDialog.Builder(this@DoctorDataActivity).create()
+        alertDialog.setCancelable(false)
+        alertDialog.setTitle("Advertencia")
+        alertDialog.setMessage("¿Está seguro que desea borrar todos los registros?, esta acción no puede deshacerse")
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Aceptar") { dialogInterface: DialogInterface, i: Int ->
+            MedicalRecordDataBase.clearDb( object : OnDeleteCompleted {
+                override fun onCompleted() {
+                    this@DoctorDataActivity.editor?.clear()
+                    this@DoctorDataActivity.editor?.apply()
+                    initViews()
+                    longToast("Eliminación completa")
+                }
+            })
+            alertDialog.dismiss()
+        }
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancelar") { dialogInterface: DialogInterface, i: Int ->
+            alertDialog.dismiss()
+        }
+        alertDialog.show()
     }
 }
