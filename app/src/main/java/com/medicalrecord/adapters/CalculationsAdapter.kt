@@ -6,14 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.medicalrecord.calcprenatal.R
 import com.medicalrecord.data.Calculation
-import com.medicalrecord.data.RefValue
-import com.medicalrecord.utils.Constants
-import com.medicalrecord.utils.decimalsFormat
 import kotlinx.android.synthetic.main.item_calculation.view.*
-import kotlinx.android.synthetic.main.item_ref_value.view.*
 
-class CalculationsAdapter(private val listener: (Calculation, Int) -> Unit): RecyclerView.Adapter<CalculationsAdapter.ValueViewHolder>() {
+class CalculationsAdapter(private val listener: (Calculation) -> Unit): RecyclerView.Adapter<CalculationsAdapter.ValueViewHolder>() {
     private var items: List<Calculation> = listOf()
+    var lastSelectedItem: View? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ValueViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_calculation, parent, false)
@@ -23,18 +20,33 @@ class CalculationsAdapter(private val listener: (Calculation, Int) -> Unit): Rec
     override fun getItemCount(): Int = items.size
 
     internal fun setCalculations(list: List<Calculation>) {
-        this.items = list
+        items = list
         notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: ValueViewHolder, position: Int) =
-            holder.bind(items[position], position, listener)
+            holder.bind(items[position], listener)
 
-    class ValueViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: Calculation, position: Int, listener: (Calculation, Int) -> Unit) = with(itemView) {
+    inner class ValueViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(item: Calculation, listener: (Calculation) -> Unit) = with(itemView) {
             itemCalculationDateTxt.text = item.date
-            itemCalculationWeightTxt.text = item.weight.toString()
-            setOnClickListener { listener(item, position) }
+            itemCalculationWeightTxt.text = "${item.weight} Kg"
+
+            if(lastSelectedItem == null)
+                lastSelectedItem = this
+
+            if (lastSelectedItem == this) {
+                itemCalculationParent.background = context.getDrawable(R.drawable.shape_rounded_square_border_gray_dark)
+            } else {
+                itemCalculationParent.setBackgroundResource(0)
+            }
+
+            setOnClickListener {
+                lastSelectedItem?.itemCalculationParent?.setBackgroundResource(0)
+                lastSelectedItem = it
+                it.itemCalculationParent.background = context.getDrawable(R.drawable.shape_rounded_square_border_gray_dark)
+                listener(item)
+            }
         }
     }
 }

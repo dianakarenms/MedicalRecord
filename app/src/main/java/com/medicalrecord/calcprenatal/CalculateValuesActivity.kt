@@ -54,11 +54,10 @@ class CalculateValuesActivity: AppCompatActivity() {
         calculateValuesItemRecycler.layoutManager = LinearLayoutManager(this@CalculateValuesActivity)
 
         // calculations recycler
-        calculationsAdapter = CalculationsAdapter {calculation, position ->
+        calculationsAdapter = CalculationsAdapter {calculation ->
             toast(calculation.weight.toString())
         }
         calculateValuesListRecycler.adapter = calculationsAdapter
-        //calculateValuesListRecycler.layoutManager = LinearLayoutManager(this@CalculateValuesActivity)
 
         // onClickListeners
         calculateValuesWeightWrapper.onClick { showEditWeightDialog() }
@@ -76,7 +75,7 @@ class CalculateValuesActivity: AppCompatActivity() {
                 if (calculations?.isNotEmpty()!!) {
                     hideEmptyStateView()
                     calculations.last().refValues?.let { valuesAdapter!!.setValueListAndType(it, valuesTypeList) }
-                    calculationsAdapter!!.setCalculations(calculations)
+                    calculationsAdapter!!.setCalculations(calculations.reversed())
                 } else {
                     showEmptyStateView()
                 }

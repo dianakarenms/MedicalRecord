@@ -1,10 +1,7 @@
 package com.medicalrecord.data
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
+import android.arch.persistence.room.*
 import android.arch.persistence.room.ForeignKey.CASCADE
-import android.arch.persistence.room.PrimaryKey
-import android.arch.persistence.room.TypeConverter
 import com.google.gson.Gson
 import java.io.Serializable
 
