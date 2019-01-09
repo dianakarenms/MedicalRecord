@@ -10,7 +10,8 @@ import kotlinx.android.synthetic.main.item_calculation.view.*
 
 class CalculationsAdapter(private val listener: (Calculation) -> Unit): RecyclerView.Adapter<CalculationsAdapter.ValueViewHolder>() {
     private var items: List<Calculation> = listOf()
-    var lastSelectedItem: View? = null
+    var lastSelectedView: View? = null
+    var lastSelectedPostion = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ValueViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_calculation, parent, false)
@@ -21,6 +22,11 @@ class CalculationsAdapter(private val listener: (Calculation) -> Unit): Recycler
 
     internal fun setCalculations(list: List<Calculation>) {
         items = list
+
+        // Restablish values to handle calculations list update
+        lastSelectedView = null
+        lastSelectedPostion = -1
+
         notifyDataSetChanged()
     }
 
@@ -32,19 +38,28 @@ class CalculationsAdapter(private val listener: (Calculation) -> Unit): Recycler
             itemCalculationDateTxt.text = item.date
             itemCalculationWeightTxt.text = "${item.weight} Kg"
 
-            if(lastSelectedItem == null)
-                lastSelectedItem = this
+            // When data is first updated select first list item
+            if(lastSelectedPostion == -1 && adapterPosition == 0) {
+                lastSelectedView = this
+                lastSelectedPostion = 0
+            }
 
-            if (lastSelectedItem == this) {
+            // If the lastSelectedPosition is the one being drawn show the square
+            if (adapterPosition == lastSelectedPostion) {
                 itemCalculationParent.background = context.getDrawable(R.drawable.shape_rounded_square_border_gray_dark)
             } else {
                 itemCalculationParent.setBackgroundResource(0)
             }
 
             setOnClickListener {
-                lastSelectedItem?.itemCalculationParent?.setBackgroundResource(0)
-                lastSelectedItem = it
-                it.itemCalculationParent.background = context.getDrawable(R.drawable.shape_rounded_square_border_gray_dark)
+                // update views
+                lastSelectedView?.itemCalculationParent?.setBackgroundResource(0) // remove square from previous position
+                it.itemCalculationParent.background = context.getDrawable(R.drawable.shape_rounded_square_border_gray_dark) // add square to new selection
+
+                // update selection
+                lastSelectedView = it
+                lastSelectedPostion = adapterPosition
+
                 listener(item)
             }
         }

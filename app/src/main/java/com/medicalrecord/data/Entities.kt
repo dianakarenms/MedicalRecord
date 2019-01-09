@@ -2,6 +2,7 @@ package com.medicalrecord.data
 
 import android.arch.persistence.room.*
 import android.arch.persistence.room.ForeignKey.CASCADE
+import android.view.View
 import com.google.gson.Gson
 import java.io.Serializable
 
@@ -29,7 +30,8 @@ data class Calculation(@PrimaryKey(autoGenerate = true) var id: Long?,
                        var patientId: Long,
                        var date: String,
                        var weight: Double,
-                       var refValues: MutableList<RefValue>? = arrayListOf()
+                       var refValues: MutableList<RefValue>? = arrayListOf(),
+                       @Ignore var selectedView: View? = null
 
 
 ){
